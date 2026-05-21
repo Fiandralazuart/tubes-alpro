@@ -25,7 +25,7 @@ func displayLap(lapangan []Lapangan, isLoop bool, n int, message string) {
 func menuLain() {
 	var cond string
 
-	fmt.Println("Buka Menu Lain?")
+	fmt.Println("Buka Menu Lain? (yes/no)")
 	fmt.Scan(&cond)
 
 	if cond == "yes" {

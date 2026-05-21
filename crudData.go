@@ -60,7 +60,7 @@ var lapangan = []Lapangan{
 func mainCrud() {
 
 	var n int
-	fmt.Println("Selamat Datang")
+	fmt.Println("=== MENU MANAJEMEN LAPANGAN ===")
 	
 	fmt.Println("Pilih Menu")
 	fmt.Println("1. Tampilkan Lapangan")
@@ -71,22 +71,59 @@ func mainCrud() {
 
 	switch {
 		case n == 1:
-			tampilkanLapangan(lapangan)
+			tampilkanLapangan()
+		case n == 2:
+			tambahLapangan()
 		case n == 3:
-			updateLapangan(lapangan)
+			updateLapangan()
+		case n == 4:
+			hapusLapangan()
 		default:
 			fmt.Println("TITID")
 	}
 
 }
 
-func tampilkanLapangan(lapangan []Lapangan) {
+func tampilkanLapangan() {
 	displayLap(lapangan, true, 0, "")
-
+	
 	menuLain()
 }
 
-func updateLapangan(lapangan []Lapangan) {
+func tambahLapangan() {
+	var n int
+	fmt.Println("=== MENU TAMBAH LAPANGAN ===")
+	
+	fmt.Println("Ingin menambahkan berapa lapangan?")
+	fmt.Scan(&n)
+	
+	for i := 0; i < n; i++ {
+		var nama, alamat, jenis string
+		var harga int
+		
+		fmt.Println("Lapangan ke", i+1)
+		fmt.Print("Masukkan Nama: ")
+		fmt.Scan(&nama)
+		fmt.Print("Masukkan Alamat: ")
+		fmt.Scan(&alamat)
+		fmt.Print("Masukkan Jenis: ")
+		fmt.Scan(&jenis)
+		fmt.Print("Masukkan Harga: ")
+		fmt.Scan(&harga)
+		
+		lapangan = append(lapangan, Lapangan{
+			nama: nama,
+			alamat: alamat,
+			jenis: jenis,
+			harga: harga,
+		})
+	}
+	fmt.Printf("Berhasil Menambahkan %d Lapangan Baru! \n", n)
+	displayLap(lapangan, true, 0, "")
+	menuLain()
+}
+
+func updateLapangan() {
 	var n, harga int
 	var nama, alamat, jenis string
 
@@ -119,7 +156,7 @@ func updateLapangan(lapangan []Lapangan) {
 
 		displayLap(lapangan, false, n, "Berhasil Update Lapangan")
 		mainCrud()
-	} else {
+	} else if isAll == "no" {
 		var ubah string
 		
 		fmt.Print("Masukkan field yang ingin diubah: ")
@@ -152,6 +189,39 @@ func updateLapangan(lapangan []Lapangan) {
 				lapangan[n-1].harga = harga
 		}
 		displayLap(lapangan, false, n, "Berhasil Update Lapangan")
+		menuLain()
+	} else {
+		fmt.Println("Perintah Tidak Valid")
+		fmt.Println(" ")
+		menuLain()
+	}
+}
+
+func hapusLapangan() {
+	var n int
+
+	fmt.Println("=== MENU HAPUS LAPANGAN ===")
+	
+	fmt.Println("Lapangan Tersedia:")
+	displayLap(lapangan, true, 0, "")
+	
+	fmt.Print("Pilih lapangan untuk dihapus: ")
+	fmt.Scan(&n)
+
+	displayLap(lapangan, false, n, "Data Lapangan")
+	fmt.Println("Anda yakin menghapusnya? (yes/no)")
+
+	cond := ""
+	fmt.Scan(&cond)
+
+	if cond == "yes" {
+		lapangan = append(lapangan[:n-1], lapangan[n:]...)
+		fmt.Println("Berhasil hapus lapangan")
+		menuLain()
+	} else if cond == "no" {
+		menuLain()
+	} else {
+		fmt.Println("Perintah Tidak Valid")
 		menuLain()
 	}
 }
