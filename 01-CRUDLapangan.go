@@ -1,62 +1,6 @@
 package main
 import "fmt"
 
-type Sewa struct {
-	tglMulai string
-	tglAkhir string 
-	jamMulai string 
-	jamAkhir string 
-	durasi int
-}
-
-type Lapangan struct {
-	nama string
-	alamat string
-	harga int
-	jenis string
-	sewa []Sewa
-}
-
-var lapangan = []Lapangan{
-	{
-		nama:   "Arena Futsal A",
-		alamat: "Sidoarjo",
-		harga:  120000,
-		jenis:  "Futsal",
-		sewa: []Sewa{
-			{
-				tglMulai: "2026-05-21",
-				tglAkhir: "2026-05-21",
-				jamMulai: "08:00",
-				jamAkhir: "10:00",
-				durasi:   2,
-			},
-			{
-				tglMulai: "2026-05-22",
-				tglAkhir: "2026-05-22",
-				jamMulai: "13:00",
-				jamAkhir: "15:00",
-				durasi:   2,
-			},
-		},
-	},
-
-	{
-		nama:   "Soccer Center",
-		alamat: "Surabaya",
-		harga:  80000,
-		jenis:  "Rumput Sintetis",
-		sewa: []Sewa{
-			{
-				tglMulai: "2026-05-23",
-				tglAkhir: "2026-05-23",
-				jamMulai: "19:00",
-				jamAkhir: "21:00",
-				durasi:   2,
-			},
-		},
-	},
-}
 func mainCrud() {
 
 	var n int
@@ -79,7 +23,8 @@ func mainCrud() {
 		case n == 4:
 			hapusLapangan()
 		default:
-			fmt.Println("TITID")
+			fmt.Println("Perintah Tidak Valid")
+			menuLain(mainCrud)
 	}
 
 }
@@ -87,7 +32,7 @@ func mainCrud() {
 func tampilkanLapangan() {
 	displayLap(lapangan, true, 0, "")
 	
-	menuLain()
+	menuLain(mainCrud)
 }
 
 func tambahLapangan() {
@@ -120,7 +65,7 @@ func tambahLapangan() {
 	}
 	fmt.Printf("Berhasil Menambahkan %d Lapangan Baru! \n", n)
 	displayLap(lapangan, true, 0, "")
-	menuLain()
+	menuLain(mainCrud)
 }
 
 func updateLapangan() {
@@ -189,11 +134,11 @@ func updateLapangan() {
 				lapangan[n-1].harga = harga
 		}
 		displayLap(lapangan, false, n, "Berhasil Update Lapangan")
-		menuLain()
+		menuLain(mainCrud)
 	} else {
 		fmt.Println("Perintah Tidak Valid")
 		fmt.Println(" ")
-		menuLain()
+		menuLain(mainCrud)
 	}
 }
 
@@ -217,11 +162,11 @@ func hapusLapangan() {
 	if cond == "yes" {
 		lapangan = append(lapangan[:n-1], lapangan[n:]...)
 		fmt.Println("Berhasil hapus lapangan")
-		menuLain()
+		menuLain(mainCrud)
 	} else if cond == "no" {
-		menuLain()
+		menuLain(mainCrud)
 	} else {
 		fmt.Println("Perintah Tidak Valid")
-		menuLain()
+		menuLain(mainCrud)
 	}
 }

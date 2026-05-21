@@ -22,17 +22,42 @@ func displayLap(lapangan []Lapangan, isLoop bool, n int, message string) {
 	}
 }
 
-func menuLain() {
+func menuLain(fungsi func()) {
 	var cond string
 
 	fmt.Println("Buka Menu Lain? (yes/no)")
 	fmt.Scan(&cond)
 
 	if cond == "yes" {
-		mainCrud()
+		fungsi()
 	} else if cond == "no" {
 		fmt.Println("Selesai")
 	} else {
 		fmt.Println("Perintah Tidak Valid")
+	}
+}
+
+func defaultJadwal() []Jam {
+	return []Jam{
+		{"08.00 - 09.00", true},
+		{"09.00 - 10.00", true},
+		{"10.00 - 11.00", true},
+		{"11.00 - 12.00", true},
+		{"12.00 - 13.00", true},
+		{"13.00 - 14.00", true},
+		{"14.00 - 15.00", true},
+		{"15.00 - 16.00", true},
+		{"16.00 - 17.00", true},
+		{"17.00 - 18.00", true},
+		{"18.00 - 19.00", true},
+		{"19.00 - 20.00", true},
+		{"20.00 - 21.00", true},
+		{"21.00 - 22.00", true},
+	}
+}
+
+func displayLapName() {
+	for i:=0; i < len(lapangan); i++ {
+		fmt.Printf("%d. Lapangan %s - %s \n", i+1, lapangan[i].nama, lapangan[i].alamat)
 	}
 }
