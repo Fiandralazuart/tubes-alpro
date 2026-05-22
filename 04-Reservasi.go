@@ -13,6 +13,7 @@ func mainReservation() {
 	fmt.Println("2. Tampilkan Jadwal")
 	fmt.Println("3. Buat Jadwal")
 	fmt.Println("4. Booking Jadwal")
+	fmt.Println("5. Kembali")
 	fmt.Print("Menu: ")
 	fmt.Scan(&n)
 
@@ -25,6 +26,8 @@ func mainReservation() {
 			buatJadwal()
 		case n == 4:
 			bookingJadwal()
+		case n == 5:
+			main()
 		default:
 			fmt.Println("Perintah Tidak Valid")
 			menuLain(mainReservation)
@@ -118,7 +121,7 @@ func bookingJadwal() {
 				if database[i].jadwal[j].isAvailable {
 					fmt.Printf("%d. %s | Tersedia \n", j+1, database[i].jadwal[j].waktu)
 					} else {
-					fmt.Printf("%d. %s | Tersedia \n", j+1, database[i].jadwal[j].waktu)
+					fmt.Printf("%d. %s | Terbooking \n", j+1, database[i].jadwal[j].waktu)
 				}
 			}
 			isThere = true

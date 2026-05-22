@@ -11,6 +11,9 @@ func mainCrud() {
 	fmt.Println("2. Tambahkan Lapangan")
 	fmt.Println("3. Edit Lapangan")
 	fmt.Println("4. Hapus Lapangan")
+	fmt.Println("5. Kembali")
+
+	fmt.Print("Menu: ")
 	fmt.Scan(&n)
 
 	switch {
@@ -22,6 +25,8 @@ func mainCrud() {
 			updateLapangan()
 		case n == 4:
 			hapusLapangan()
+		case n == 5:
+			main()
 		default:
 			fmt.Println("Perintah Tidak Valid")
 			menuLain(mainCrud)
