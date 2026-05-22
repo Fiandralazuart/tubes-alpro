@@ -1,10 +1,5 @@
 package main
-
 import "fmt"
-
-func runProject() {
-	fmt.Println("Selamat Datang di Tubes Alpro")
-}
 
 func main() {
 	var n int
