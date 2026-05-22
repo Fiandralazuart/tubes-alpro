@@ -46,10 +46,10 @@ var penyewa = []Penyewa{
 // func runPenyewa() {
 // 	menuPenyewa()
 // }
-	{ID: 1, nama: "Jokowi", noHP: "08123456789", totalBooking: 3, punyaVoucher: false},
-	{ID: 2, nama: "Gibran", noHP: "08234567890", totalBooking: 7, punyaVoucher: true},
-	{ID: 3, nama: "Prabowo", noHP: "08345678901", totalBooking: 2, punyaVoucher: false},
-}
+// 	{ID: 1, nama: "Jokowi", noHP: "08123456789", totalBooking: 3, punyaVoucher: false},
+// 	{ID: 2, nama: "Gibran", noHP: "08234567890", totalBooking: 7, punyaVoucher: true},
+// 	{ID: 3, nama: "Prabowo", noHP: "08345678901", totalBooking: 2, punyaVoucher: false},
+// }
 
 // menuPenyewa menampilkan menu utama penyewa dan mengarahkan ke fungsi yang sesuai
 func menuPenyewa() {
@@ -62,6 +62,7 @@ func menuPenyewa() {
 	fmt.Println("3. Update Penyewa")
 	fmt.Println("4. Hapus Penyewa")
 	fmt.Println("5. Sorting Total Booking")
+	fmt.Println("6. Kembali")
 	fmt.Scan(&n)
 
 	switch {
@@ -75,6 +76,8 @@ func menuPenyewa() {
 		hapusPenyewa()
 	case n == 5:
 		insertionSortBooking()
+	case n == 6:
+		main()
 	default:
 		fmt.Println("Perintah Tidak Valid")
 		menuPenyewa()
@@ -110,23 +113,23 @@ func displayPenyewa(data []Penyewa, all bool, n int, label string) {
 }
 
 // menuLain mengarahkan kembali ke menu yang diberikan atau keluar jika ditolak
-func menuLain(callback func()) {
-	var pilihan string
-	fmt.Print("Kembali ke menu? (yes/no): ")
-	fmt.Scan(&pilihan)
-	fmt.Println()
+// func menuLain(callback func()) {
+// 	var pilihan string
+// 	fmt.Print("Kembali ke menu? (yes/no): ")
+// 	fmt.Scan(&pilihan)
+// 	fmt.Println()
 
-	switch strings.ToLower(pilihan) {
-	case "yes", "y":
-		callback()
-	case "no", "n":
-		fmt.Println("Terima kasih!")
-		os.Exit(0)
-	default:
-		fmt.Println("Perintah Tidak Valid")
-		menuLain(callback)
-	}
-}
+// 	switch strings.ToLower(pilihan) {
+// 	case "yes", "y":
+// 		callback()
+// 	case "no", "n":
+// 		fmt.Println("Terima kasih!")
+// 		os.Exit(0)
+// 	default:
+// 		fmt.Println("Perintah Tidak Valid")
+// 		menuLain(callback)
+// 	}
+// }
 
 // tampilkanPenyewa menampilkan seluruh data penyewa
 func tampilkanPenyewa() {

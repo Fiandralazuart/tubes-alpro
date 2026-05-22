@@ -47,16 +47,52 @@ var lapangan = []Lapangan{
 
 var database = []Database{
 	{
-		tanggal: "2026-05-23",
+		tanggal:  "2026-05-23",
 		lapangan: "Soccer Center",
-		jadwal: defaultJadwal(),
+		jadwal:   defaultJadwal(),
+		reservasi: []Sewa{
+			{
+				penyewa:  "Fathir",
+				tglMulai: "2026-05-23",
+				tglAkhir: "2026-05-23",
+				jamMulai: "08.00",
+				jamAkhir: "10.00",
+				durasi:   2,
+			},
+			{
+				penyewa:  "Budi",
+				tglMulai: "2026-05-23",
+				tglAkhir: "2026-05-23",
+				jamMulai: "15.00",
+				jamAkhir: "16.00",
+				durasi:   1,
+			},
+		},
 	},
 	{
-		tanggal: "2026-05-23",
+		tanggal:  "2026-05-23",
 		lapangan: "Arena Futsal A",
-		jadwal: defaultJadwal(),
+		jadwal:   defaultJadwal(),
+		reservasi: []Sewa{
+			{
+				penyewa:  "Budi",
+				tglMulai: "2026-05-23",
+				tglAkhir: "2026-05-23",
+				jamMulai: "09.00",
+				jamAkhir: "11.00",
+				durasi:   2,
+			},
+			{
+				penyewa:  "Andi",
+				tglMulai: "2026-05-23",
+				tglAkhir: "2026-05-23",
+				jamMulai: "18.00",
+				jamAkhir: "20.00",
+				durasi:   2,
+			},
+		},
 	},
-} 
+}
 
 type Database struct {
 	tanggal string
