@@ -1,5 +1,10 @@
 package main
+
 import "fmt"
+
+func runProject() {
+	fmt.Println("Selamat Datang di Tubes Alpro")
+}
 
 func main() {
 	fmt.Println("hello")
