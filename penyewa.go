@@ -7,7 +7,6 @@ import (
 	"strings"
 )
 
-// Struct Penyewa menyimpan data penyewa lapangan futsal (gabriel edbert)
 type Penyewa struct {
 	ID           int
 	nama         string
@@ -16,14 +15,12 @@ type Penyewa struct {
 	punyaVoucher bool
 }
 
-// Data awal penyewa sebagai sample (gabriel edbert)
 var penyewa = []Penyewa{
 	{ID: 1, nama: "Jokowi", noHP: "08123456789", totalBooking: 3, punyaVoucher: false},
 	{ID: 2, nama: "Gibran", noHP: "08234567890", totalBooking: 7, punyaVoucher: true},
 	{ID: 3, nama: "Prabowo", noHP: "08345678901", totalBooking: 2, punyaVoucher: false},
 }
 
-// menuPenyewa menampilkan menu utama penyewa dan mengarahkan ke fungsi yang sesuai (gabriel edbert)
 func menuPenyewa() {
 	var n int
 
@@ -60,14 +57,14 @@ func menuPenyewa() {
 	}
 }
 
-// displayPenyewa menampilkan data penyewa, jika all=true tampilkan semua, jika false tampilkan satu berdasarkan nomor urut (gabriel edbert)
+// displayPenyewa menampilkan data penyewa, jika all=true tampilkan semua, jika false tampilkan satu berdasarkan nomor urut
 func displayPenyewa(data []Penyewa, all bool, n int, label string) {
 	if label != "" {
 		fmt.Printf("=== %s ===\n", label)
 	}
 
 	if all {
-		// menampilkan seluruh data penyewa (gabriel edbert)
+		// menampilkan seluruh data penyewa 
 		for i, p := range data {
 			voucher := "Tidak Ada"
 			if p.punyaVoucher {
@@ -77,7 +74,7 @@ func displayPenyewa(data []Penyewa, all bool, n int, label string) {
 				i+1, p.nama, p.noHP, p.totalBooking, voucher)
 		}
 	} else {
-		// validasi nomor urut sebelum menampilkan satu data (gabriel edbert)
+
 		if n < 1 || n > len(data) {
 			fmt.Println("Nomor Tidak Valid")
 			return
@@ -94,7 +91,7 @@ func displayPenyewa(data []Penyewa, all bool, n int, label string) {
 	fmt.Println()
 }
 
-// menuLain menanyakan apakah pengguna ingin kembali ke menu yang diberikan (gabriel edbert)
+// menuLain menanyakan apakah pengguna ingin kembali ke menu yang diberikan
 func menuLain(callback func()) {
 	cond := ""
 
@@ -112,7 +109,7 @@ func menuLain(callback func()) {
 	}
 }
 
-// tampilkanPenyewa menampilkan seluruh data penyewa (gabriel edbert)
+// tampilkanPenyewa menampilkan seluruh data penyewa
 func tampilkanPenyewa() {
 	fmt.Println("=== TAMPILKAN PENYEWA ===")
 
@@ -126,7 +123,7 @@ func tampilkanPenyewa() {
 	menuLain(menuPenyewa)
 }
 
-// tambahPenyewa menambahkan data penyewa baru ke dalam slice (gabriel edbert)
+// tambahPenyewa menambahkan data penyewa baru ke dalam slice 
 func tambahPenyewa() {
 	reader := bufio.NewReader(os.Stdin)
 
@@ -140,7 +137,6 @@ func tambahPenyewa() {
 	var noHP string
 	fmt.Scanln(&noHP)
 
-	// menentukan ID baru berdasarkan ID terakhir dalam slice (gabriel edbert)
 	idBaru := 1
 	if len(penyewa) > 0 {
 		idBaru = penyewa[len(penyewa)-1].ID + 1
@@ -159,7 +155,7 @@ func tambahPenyewa() {
 	menuLain(menuPenyewa)
 }
 
-// updatePenyewa memperbarui data penyewa berdasarkan nomor urut (gabriel edbert)
+// updatePenyewa mengupdate data penyewa
 func updatePenyewa() {
 	var n int
 	reader := bufio.NewReader(os.Stdin)
@@ -177,7 +173,6 @@ func updatePenyewa() {
 	fmt.Print("Pilih Penyewa Untuk Update: ")
 	fmt.Scan(&n)
 
-	// validasi nomor urut yang dipilih (gabriel edbert)
 	if n < 1 || n > len(penyewa) {
 		fmt.Println("Nomor Tidak Valid")
 		menuLain(menuPenyewa)
@@ -189,7 +184,7 @@ func updatePenyewa() {
 	isAll := ""
 	fmt.Print("Update semua data? (yes/no): ")
 	fmt.Scan(&isAll)
-	reader.ReadString('\n') // membersihkan sisa newline di buffer sebelum ReadString berikutnya (gabriel edbert)
+	reader.ReadString('\n') // membersihkan sisa newline di buffer sebelum ReadString berikutnya 
 
 	if isAll == "yes" || isAll == "y" {
 		fmt.Print("Ubah Nama: ")
@@ -209,7 +204,7 @@ func updatePenyewa() {
 		ubah := ""
 		fmt.Print("Masukkan field yang ingin diubah (nama/noHP): ")
 		fmt.Scan(&ubah)
-		reader.ReadString('\n') // membersihkan sisa newline di buffer (gabriel edbert)
+		reader.ReadString('\n') // membersihkan sisa newline di buffer 
 
 		switch {
 		case ubah == "nama":
@@ -241,7 +236,7 @@ func updatePenyewa() {
 	menuLain(menuPenyewa)
 }
 
-// hapusPenyewa menghapus data penyewa berdasarkan nomor urut (gabriel edbert)
+// hapusPenyewa menghapus data penyewa berdasarkan nomor urut 
 func hapusPenyewa() {
 	var n int
 
@@ -259,7 +254,7 @@ func hapusPenyewa() {
 	fmt.Print("Pilih penyewa untuk dihapus: ")
 	fmt.Scan(&n)
 
-	// validasi nomor urut yang dipilih (gabriel edbert)
+	// validasi nomor urut yang dipilih 
 	if n < 1 || n > len(penyewa) {
 		fmt.Println("Nomor Tidak Valid")
 		menuLain(menuPenyewa)
@@ -273,7 +268,7 @@ func hapusPenyewa() {
 	fmt.Scan(&cond)
 
 	if cond == "yes" || cond == "y" {
-		// menghapus elemen dari slice dengan cara menggabungkan elemen sebelum dan sesudahnya (gabriel edbert)
+		// menghapus elemen dari slice dengan cara menggabungkan elemen sebelum dan sesudahnya 
 		penyewa = append(penyewa[:n-1], penyewa[n:]...)
 		fmt.Println("Berhasil Hapus Penyewa")
 	} else if cond == "no" || cond == "n" {
@@ -285,14 +280,14 @@ func hapusPenyewa() {
 	menuLain(menuPenyewa)
 }
 
-// insertionSortBooking mengurutkan slice penyewa berdasarkan totalBooking dari besar ke kecil (gabriel edbert)
+// insertionSortBooking mengurutkan slice penyewa berdasarkan totalBooking dari besar ke kecil 
 func insertionSortBooking() {
-	// melakukan insertion sort dari index 1 hingga akhir slice (gabriel edbert)
+	// melakukan insertion sort dari index 1 hingga akhir slice 
 	for i := 1; i < len(penyewa); i++ {
 		temp := penyewa[i]
 		j := i - 1
 
-		// menggeser elemen ke kanan selama totalBooking lebih kecil dari temp (gabriel edbert)
+		// menggeser elemen ke kanan selama totalBooking lebih kecil dari temp 
 		for j >= 0 && penyewa[j].totalBooking < temp.totalBooking {
 			penyewa[j+1] = penyewa[j]
 			j--
