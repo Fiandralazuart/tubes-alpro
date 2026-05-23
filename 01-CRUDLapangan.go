@@ -78,10 +78,15 @@ func updateLapangan() {
 	var nama, alamat, jenis string
 
 	fmt.Println("=== MENU UPDATE LAPANGAN ===")
-	displayLap(lapangan, true, 0, "")
+	jml := displayLap(lapangan, true, 0, "")
 
 	fmt.Println("Pilih Lapangan Untuk Update:")
 	fmt.Scan(&n)
+
+	if n > jml {
+		fmt.Println("Perintah Tidak Valid")
+		menuLain(mainCrud)
+	}
 
 	displayLap(lapangan, false, n, "Update Lapangan")
 
@@ -153,10 +158,15 @@ func hapusLapangan() {
 	fmt.Println("=== MENU HAPUS LAPANGAN ===")
 	
 	fmt.Println("Lapangan Tersedia:")
-	displayLap(lapangan, true, 0, "")
+	jml := displayLap(lapangan, true, 0, "")
 	
 	fmt.Print("Pilih lapangan untuk dihapus: ")
 	fmt.Scan(&n)
+
+	if n > jml {
+		fmt.Println("Perintah Tidak Valid")
+		menuLain(mainReservation)
+	}
 
 	displayLap(lapangan, false, n, "Data Lapangan")
 	fmt.Println("Anda yakin menghapusnya? (yes/no)")

@@ -1,7 +1,8 @@
 package main
 import "fmt"
 
-func displayLap(lapangan []Lapangan, isLoop bool, n int, message string) {
+func displayLap(lapangan []Lapangan, isLoop bool, n int, message string) int {
+	x := 0
 	if isLoop {
 		for i := 0; i < len(lapangan); i++ {
 			fmt.Printf("Lapangan-%d \n", i+1)
@@ -10,6 +11,7 @@ func displayLap(lapangan []Lapangan, isLoop bool, n int, message string) {
 			fmt.Printf("Jenis Lap: %s \n", lapangan[i].jenis)
 			fmt.Printf("Harga Sewa: %d \n", lapangan[i].harga)
 			fmt.Println(" ")
+			x++
 		}
 	} else {
 		fmt.Println(" ")
@@ -19,7 +21,9 @@ func displayLap(lapangan []Lapangan, isLoop bool, n int, message string) {
 		fmt.Printf("Jenis Lap: %s \n", lapangan[n-1].jenis)
 		fmt.Printf("Harga Sewa: %d \n", lapangan[n-1].harga)
 		fmt.Println(" ")
+		x++
 	}
+	return x
 }
 
 func menuLain(fungsi func()) {
@@ -56,10 +60,13 @@ func defaultJadwal() []Jam {
 	}
 }
 
-func displayLapName() {
+func displayLapName() int {
+	n := 0
 	for i:=0; i < len(lapangan); i++ {
 		fmt.Printf("%d. Lapangan %s - %s \n", i+1, lapangan[i].nama, lapangan[i].alamat)
+		n++
 	}
+	return n
 }
 
 func ambilJam(index int) string {
@@ -94,5 +101,16 @@ func ambilJam(index int) string {
 		return "21.00"
 	default:
 		return "Jam tidak ditemukan"
+	}
+}
+
+func loopReservasi(i int) {
+	for j := 0; j < len(database[i].reservasi); j++ {
+		fmt.Println("")
+		fmt.Printf("Nama: %s\n", database[i].reservasi[j].penyewa)
+		fmt.Printf("Tanggal: %s - %s\n", database[i].reservasi[j].tglMulai, database[i].reservasi[j].tglAkhir)
+		fmt.Printf("Jam: %s - %s\n", database[i].reservasi[j].jamMulai, database[i].reservasi[j].jamAkhir)
+		fmt.Printf("Durasi: %d jam\n", database[i].reservasi[j].durasi)
+		fmt.Println("")
 	}
 }

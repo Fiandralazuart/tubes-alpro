@@ -104,10 +104,15 @@ func bookingJadwal() {
 	var tanggal, nama string
 	// var data Database
 	fmt.Println("=== Booking Jadwal ===")
-	displayLapName()
+	jml := displayLapName()
 
 	fmt.Println("Pilih: ")
 	fmt.Scan(&n)
+
+	if n > jml {
+		fmt.Println("Perintah Tidak Valid")
+		menuLain(mainReservation)
+	}
 
 	fmt.Println("Masukkan Tanggal: ")
 	fmt.Scan(&tanggal)
@@ -153,11 +158,8 @@ func bookingJadwal() {
 		}
 	}
 
-	tipe := ""
 	jmlJam := 0
 	if isMember {
-		fmt.Println("Tipe Booking: ")
-		fmt.Scan(&tipe)
 
 		fmt.Println("Jumlah Jam: ")
 		fmt.Scan(&jmlJam)
@@ -195,29 +197,33 @@ func tampilkanReservasi() {
 	fmt.Print("Pilih: ")
 	fmt.Scan(&n)
 
-	displayLapName()
-	fmt.Print("Pilih Lapangan: ")
-	fmt.Scan(&n)
+	if n == 1 {
+		displayLapName()
 
-	for i := 0; i < len(database); i++ {
-		if database[i].lapangan == lapangan[n-1].nama {
-			for j := 0; j < len(database[i].reservasi); j++ {
-				fmt.Println("")
-				fmt.Printf("Nama: %s\n", database[i].reservasi[j].penyewa)
-				fmt.Printf("Tanggal: %s - %s\n", database[i].reservasi[j].tglMulai, database[i].reservasi[j].tglAkhir)
-				fmt.Printf("Jam: %s - %s\n", database[i].reservasi[j].jamMulai, database[i].reservasi[j].jamAkhir)
-				fmt.Printf("Durasi: %d jam\n", database[i].reservasi[j].durasi)
-				fmt.Println("")
+		fmt.Print("Pilih Lapangan: ")
+		fmt.Scan(&n)
+	
+		for i := 0; i < len(database); i++ {
+			if database[i].lapangan == lapangan[n-1].nama {
+				loopReservasi(i)
 			}
 		}
+		menuLain(mainReservation)
+	} else if n == 2 {
+		for i := 0; i < len(database); i++ {
+			loopReservasi(i)
+		}
+		menuLain(mainReservation)
+	} else {
+		fmt.Println("Perintah Tidak Valid")
+		menuLain(mainReservation)
 	}
-	menuLain(mainReservation)
+
 }
 
 // Catatan Reservasi
 // Tampilkan Data Reservasi Per Lapangan (Done)
-// Tampilkan Data Reservasi Semua Lapangan (Plan)
+// Tampilkan Data Reservasi Semua Lapangan (Done)
 
 // Catatan Booking
 // Booking Jam an (Done)
-// Booking Harian (Plan)
