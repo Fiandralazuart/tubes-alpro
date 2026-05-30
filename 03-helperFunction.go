@@ -1,4 +1,5 @@
 package main
+
 import "fmt"
 
 func displayLap(lapangan []Lapangan, isLoop bool, n int, message string) {
@@ -22,21 +23,6 @@ func displayLap(lapangan []Lapangan, isLoop bool, n int, message string) {
 	}
 }
 
-func menuLain(fungsi func()) {
-	var cond string
-
-	fmt.Println("Buka Menu Lain? (yes/no)")
-	fmt.Scan(&cond)
-
-	if cond == "yes" {
-		fungsi()
-	} else if cond == "no" {
-		fmt.Println("Selesai")
-	} else {
-		fmt.Println("Perintah Tidak Valid")
-	}
-}
-
 func defaultJadwal() []Jam {
 	return []Jam{
 		{"08.00 - 09.00", true},
@@ -57,7 +43,7 @@ func defaultJadwal() []Jam {
 }
 
 func displayLapName() {
-	for i:=0; i < len(lapangan); i++ {
+	for i := 0; i < len(lapangan); i++ {
 		fmt.Printf("%d. Lapangan %s - %s \n", i+1, lapangan[i].nama, lapangan[i].alamat)
 	}
 }

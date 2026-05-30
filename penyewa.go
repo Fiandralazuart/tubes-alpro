@@ -39,17 +39,13 @@ var penyewa = []Penyewa{
 	},
 }
 
-// func mainPenyewa() {
-// 	runPenyewa()
-// }
+func mainPenyewa() {
+	runPenyewa()
+}
 
-// func runPenyewa() {
-// 	menuPenyewa()
-// }
-// 	{ID: 1, nama: "Jokowi", noHP: "08123456789", totalBooking: 3, punyaVoucher: false},
-// 	{ID: 2, nama: "Gibran", noHP: "08234567890", totalBooking: 7, punyaVoucher: true},
-// 	{ID: 3, nama: "Prabowo", noHP: "08345678901", totalBooking: 2, punyaVoucher: false},
-// }
+func runPenyewa() {
+	menuPenyewa()
+}
 
 func menuPenyewa() {
 	var n int

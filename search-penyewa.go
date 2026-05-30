@@ -7,7 +7,7 @@ import (
 
 // ==================== MENU UTAMA SEARCH ====================
 
-// menuSearchPenyewa menampilkan pilihan antara sequential search dan binary search
+// menampilkan pilihan antara sequential search dan binary search
 func menuSearchPenyewa() {
 	var n int
 
@@ -30,7 +30,7 @@ func menuSearchPenyewa() {
 
 // ==================== SEQUENTIAL SEARCH ====================
 
-// menuSeqPenyewa menampilkan pilihan field untuk sequential search
+// menampilkan pilihan field untuk sequential search
 func menuSeqPenyewa() {
 	var n int
 
@@ -55,7 +55,7 @@ func menuSeqPenyewa() {
 	}
 }
 
-// seqCariNama mencari penyewa berdasarkan nama secara linear
+// mencari penyewa berdasarkan nama secara linear
 func seqCariNama() {
 	var key string
 
@@ -123,7 +123,7 @@ func seqCariNoHP() {
 	}
 }
 
-// seqCariVoucher mencari penyewa berdasarkan status kepemilikan voucher secara linear
+// mencari penyewa berdasarkan status kepemilikan voucher secara linear
 func seqCariVoucher() {
 	var n int
 
@@ -167,7 +167,7 @@ func seqCariVoucher() {
 
 // ==================== BINARY SEARCH ====================
 
-// menuBinPenyewa menampilkan pilihan field untuk binary search
+// menampilkan pilihan field untuk binary search
 func menuBinPenyewa() {
 	var n int
 
@@ -220,7 +220,7 @@ func binCariNama() {
 	aksiSetelahDitemukan(data[idx].ID)
 }
 
-// binCariNoHP mencari penyewa berdasarkan nomor HP dengan binary search
+// mencari penyewa berdasarkan nomor HP dengan binary search
 func binCariNoHP() {
 	var key string
 
@@ -248,7 +248,7 @@ func binCariNoHP() {
 	aksiSetelahDitemukan(data[idx].ID)
 }
 
-// binCariID mencari penyewa berdasarkan ID dengan binary search
+// mencari penyewa berdasarkan ID dengan binary search
 func binCariID() {
 	var targetID int
 
@@ -276,9 +276,8 @@ func binCariID() {
 	aksiSetelahDitemukan(data[idx].ID)
 }
 
-// ==================== AKSI SETELAH DITEMUKAN ====================
 
-// aksiSetelahDitemukan menawarkan aksi update atau hapus setelah penyewa berhasil ditemukan
+// menawarkan update atau hapus setelah penyewa berhasil ditemukan
 func aksiSetelahDitemukan(id int) {
 	var n int
 
@@ -317,7 +316,7 @@ func aksiSetelahDitemukan(id int) {
 	}
 }
 
-// updatePenyewaByIndex mengupdate penyewa berdasarkan nomor urut, dipanggil setelah search
+// mengupdate penyewa berdasarkan nomor urut, dipanggil setelah search
 func updatePenyewaByIndex(n int) {
 	displayPenyewa(penyewa, false, n, "Update Penyewa")
 
@@ -370,7 +369,7 @@ func updatePenyewaByIndex(n int) {
 	}
 }
 
-// hapusPenyewaByIndex menghapus penyewa berdasarkan nomor urut, dipanggil setelah search
+// menghapus penyewa berdasarkan nomor urut, dipanggil setelah search
 func hapusPenyewaByIndex(n int) {
 	displayPenyewa(penyewa, false, n, "Data Penyewa")
 
@@ -393,7 +392,7 @@ func hapusPenyewaByIndex(n int) {
 
 // ==================== HELPER SORT ====================
 
-// sortNama mengurutkan data penyewa berdasarkan nama A-Z menggunakan insertion sort
+// mengurutkan data penyewa berdasarkan nama A-Z menggunakan insertion sort
 func sortNama(data []Penyewa) {
 	for i := 1; i < len(data); i++ {
 		temp := data[i]
@@ -408,7 +407,7 @@ func sortNama(data []Penyewa) {
 	}
 }
 
-// sortNoHP mengurutkan data penyewa berdasarkan nomor HP menggunakan insertion sort
+// mengurutkan data penyewa berdasarkan nomor HP menggunakan insertion sort
 func sortNoHP(data []Penyewa) {
 	for i := 1; i < len(data); i++ {
 		temp := data[i]
@@ -423,7 +422,7 @@ func sortNoHP(data []Penyewa) {
 	}
 }
 
-// sortID mengurutkan data penyewa berdasarkan ID menggunakan insertion sort
+// mengurutkan data penyewa berdasarkan ID menggunakan insertion sort
 func sortID(data []Penyewa) {
 	for i := 1; i < len(data); i++ {
 		temp := data[i]
@@ -440,7 +439,7 @@ func sortID(data []Penyewa) {
 
 // ==================== HELPER BINARY SEARCH ====================
 
-// binNama mencari penyewa berdasarkan nama dengan binary search, data harus sudah terurut
+// mencari penyewa berdasarkan nama dengan binary search, data harus sudah terurut
 func binNama(data []Penyewa, key string) int {
 	awal := 0
 	akhir := len(data) - 1
@@ -462,7 +461,7 @@ func binNama(data []Penyewa, key string) int {
 	return -1
 }
 
-// binNoHP mencari penyewa berdasarkan nomor HP dengan binary search, data harus sudah terurut
+// mencari penyewa berdasarkan nomor HP dengan binary search, data harus sudah terurut
 func binNoHP(data []Penyewa, key string) int {
 	awal := 0
 	akhir := len(data) - 1
@@ -483,7 +482,7 @@ func binNoHP(data []Penyewa, key string) int {
 	return -1
 }
 
-// binID mencari penyewa berdasarkan ID dengan binary search, data harus sudah terurut
+// mencari penyewa berdasarkan ID dengan binary search, data harus sudah terurut
 func binID(data []Penyewa, targetID int) int {
 	awal := 0
 	akhir := len(data) - 1
