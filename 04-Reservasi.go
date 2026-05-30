@@ -14,7 +14,8 @@ func mainReservation() {
 	fmt.Println("3. Buat Jadwal")
 	fmt.Println("4. Booking Jadwal")
 	fmt.Println("5. History Reservasi")
-	fmt.Println("6. Kembali")
+	fmt.Println("6. Statistik Pendapatan")
+	fmt.Println("7. Kembali")
 	fmt.Print("Menu: ")
 	fmt.Scan(&n)
 
@@ -30,6 +31,8 @@ func mainReservation() {
 	case n == 5:
 		tampilkanReservasi()
 	case n == 6:
+		statistikPendapatan()
+	case n == 7:
 		main()
 	default:
 		fmt.Println("Perintah Tidak Valid")
@@ -39,6 +42,9 @@ func mainReservation() {
 
 func tampilkanJadwal() {
 	var n int
+	var pilih string
+	var metode int
+
 	fmt.Println("=== Jadwal Lapangan ===")
 	fmt.Println("Pilih Lapangan: ")
 	displayLapName()
@@ -47,20 +53,50 @@ func tampilkanJadwal() {
 	fmt.Scan(&n)
 
 	for i := 0; i < len(database); i++ {
+
 		if database[i].lapangan == lapangan[n-1].nama {
+			jadwalTampil := append([]Jam{}, database[i].jadwal...)
+
+			fmt.Println("Urutkan Data? (yes/no)")
+			fmt.Scan(&pilih)
+
+			if pilih == "yes" {
+
+				fmt.Println("1. Selection Sort")
+				fmt.Println("2. Insertion Sort")
+				fmt.Print("Pilih metode: ")
+				fmt.Scan(&metode)
+
+				if metode == 1 {
+					selectionSort(jadwalTampil)
+				} else if metode == 2 {
+					insertionSort(jadwalTampil)
+				} else {
+					fmt.Println("Perintah Tidak Valid")
+					menuLain(mainReservation)
+				}
+			} else if pilih != "no" {
+				fmt.Println("Perintah Tidak Valid")
+				menuLain(mainReservation)
+			} 
+
 			fmt.Println("==== Jadwal Tersedia ====")
 			fmt.Printf("Lap. %s | %s\n", database[i].lapangan, database[i].tanggal)
 			fmt.Println("")
-			for j := 0; j < len(database[i].jadwal); j++ {
-				if database[i].jadwal[j].isAvailable {
-					fmt.Printf("%s | Tersedia \n", database[i].jadwal[j].waktu)
+
+			for j := 0; j < len(jadwalTampil); j++ {
+
+				if jadwalTampil[j].isAvailable {
+					fmt.Printf("%s | Tersedia \n", jadwalTampil[j].waktu)
 				} else {
-					fmt.Printf("%s | Terbooking \n", database[i].jadwal[j].waktu)
+					fmt.Printf("%s | Terbooking \n", jadwalTampil[j].waktu)
 				}
 			}
+
 			fmt.Println("")
 		}
 	}
+
 	menuLain(mainReservation)
 }
 
@@ -88,6 +124,7 @@ func buatJadwal() {
 		database = append(database, Database{
 			tanggal:  tanggal,
 			lapangan: lapangan[n-1].nama,
+			harga: lapangan[n-1].harga,
 			jadwal:   defaultJadwal(),
 		})
 		fmt.Println("Sukses Membuat Jadwal")
@@ -220,10 +257,68 @@ func tampilkanReservasi() {
 	}
 
 }
+func selectionSort(jadwal []Jam) {
+	for a := 0; a < len(jadwal)-1; a++ {
+
+		max := a
+
+		for b := a + 1; b < len(jadwal); b++ {
+
+			// Terbooking di atas
+			if !jadwal[b].isAvailable &&
+				jadwal[max].isAvailable {
+
+				max = b
+			}
+		}
+
+		jadwal[a], jadwal[max] =
+			jadwal[max], jadwal[a]
+	}
+}
+
+func insertionSort(jadwal []Jam) {
+	for a := 1; a < len(jadwal); a++ {
+
+		key := jadwal[a]
+		b := a - 1
+
+		for b >= 0 &&
+			jadwal[b].isAvailable &&
+			!key.isAvailable {
+
+			jadwal[b+1] = jadwal[b]
+			b--
+		}
+
+		jadwal[b+1] = key
+	}
+}
+
+func statistikPendapatan() {
+	fmt.Println("=== Dashboard Pendapatan ===")
+	arr := [14]int{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+
+	total := 0
+	for i := 0; i < len(database); i++ {
+		for j := 0; j < len(database[i].reservasi); j++ {
+			total += database[i].reservasi[j].durasi * database[i].harga
+			x := ambilIndexJam(database[i].reservasi[j].jamMulai)
+			arr[x] += 1
+		}
+	}
+
+	fmt.Println("Total Pendapatan: Rp.", total)
+	fmt.Println(arr)
+	menuLain(mainReservation)
+} 
 
 // Catatan Reservasi
 // Tampilkan Data Reservasi Per Lapangan (Done)
 // Tampilkan Data Reservasi Semua Lapangan (Done)
+
+// Catatan Jadwal
+// Tampilkan Data Jadwal dengan sorting (Done)
 
 // Catatan Booking
 // Booking Jam an (Done)

@@ -6,24 +6,6 @@ var lapangan = []Lapangan{
 		alamat: "Sidoarjo",
 		harga:  120000,
 		jenis:  "Futsal",
-		// sewa: []Sewa{
-		// 	{
-		// 		penyewa: "Jamal",
-		// 		tglMulai: "2026-05-21",
-		// 		tglAkhir: "2026-05-21",
-		// 		jamMulai: "08:00",
-		// 		jamAkhir: "10:00",
-		// 		durasi:   2,
-		// 	},
-		// 	{
-		// 		penyewa: "Udin",
-		// 		tglMulai: "2026-05-22",
-		// 		tglAkhir: "2026-05-22",
-		// 		jamMulai: "13:00",
-		// 		jamAkhir: "15:00",
-		// 		durasi:   2,
-		// 	},
-		// },
 	},
 
 	{
@@ -31,16 +13,6 @@ var lapangan = []Lapangan{
 		alamat: "Surabaya",
 		harga:  80000,
 		jenis:  "Rumput Sintetis",
-		// sewa: []Sewa{
-		// 	{
-		// 		penyewa: "Rahman",
-		// 		tglMulai: "2026-05-23",
-		// 		tglAkhir: "2026-05-23",
-		// 		jamMulai: "19:00",
-		// 		jamAkhir: "21:00",
-		// 		durasi:   2,
-		// 	},
-		// },
 	},
 }
 
@@ -49,6 +21,7 @@ var database = []Database{
 	{
 		tanggal:  "2026-05-23",
 		lapangan: "Soccer Center",
+		harga: 120000,
 		jadwal:   defaultJadwal(),
 		reservasi: []Sewa{
 			{
@@ -72,6 +45,7 @@ var database = []Database{
 	{
 		tanggal:  "2026-05-23",
 		lapangan: "Arena Futsal A",
+		harga: 80000,
 		jadwal:   defaultJadwal(),
 		reservasi: []Sewa{
 			{
@@ -97,6 +71,7 @@ var database = []Database{
 type Database struct {
 	tanggal string
 	lapangan string
+	harga int
 	jadwal []Jam
 	reservasi []Sewa
 }
@@ -122,5 +97,4 @@ type Lapangan struct {
 	alamat string
 	harga int
 	jenis string
-	// sewa []Sewa
 }
