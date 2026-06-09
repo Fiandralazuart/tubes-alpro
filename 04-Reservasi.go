@@ -31,8 +31,8 @@ func mainReservation() {
 	case n == 5:
 		tampilkanReservasi()
 	case n == 6:
-		// statistikPendapatan()
-		fmt.Println("helo")
+		statistikPendapatan()
+		// fmt.Println("helo")
 	case n == 7:
 		main()
 	default:
@@ -231,7 +231,6 @@ func bookingJadwal() {
 
 	jmlJam := 0
 	if isMember {
-
 		fmt.Println("Jumlah Jam: ")
 		fmt.Scan(&jmlJam)
 
@@ -247,7 +246,7 @@ func bookingJadwal() {
 
 		database[idx].reservasi = append(database[idx].reservasi, Sewa{
 			penyewa:  nama,
-			jamMulai: ambilJam(x - n),
+			jamMulai: ambilJam(x - 1),
 			jamAkhir: ambilJam(x),
 			tglMulai: tahun + "-" + bulan + "-" + hari,
 			tglAkhir: tahun + "-" + bulan + "-" + hari,
@@ -297,23 +296,70 @@ func tampilkanReservasi() {
 }
 
 
-// func statistikPendapatan() {
-// 	fmt.Println("=== Dashboard Pendapatan ===")
-// 	arr := [14]int{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+func statistikPendapatan() {
+	fmt.Println("=== Dashboard Pendapatan ===")
+	var dataStats []stats
 
-// 	total := 0
-// 	for i := 0; i < len(database); i++ {
-// 		for j := 0; j < len(database[i].reservasi); j++ {
-// 			total += database[i].reservasi[j].durasi * database[i].harga
-// 			x := ambilIndexJam(database[i].reservasi[j].jamMulai)
-// 			arr[x] += 1
-// 		}
-// 	}
+	// for i := 0; i < len(database); i++ {
+	// 	for j := 0; j < len(database[i].reservasi); j++ {
+	// 		x := ambilIndexJam(database[i].reservasi[j].jamMulai)
+	// 		arr[x] += 1
+	// 	}
+	// }
 
-// 	fmt.Println("Total Pendapatan: Rp.", total)
-// 	fmt.Println(arr)
-// 	menuLain(mainReservation)
-// }
+
+	for i := 0; i < len(database); i++ {
+		ketemu := false
+
+		for j := 0; j < len(dataStats); j++ {
+			if database[i].tanggal.bulan == dataStats[j].bulan {
+				ketemu = true
+				break
+			}
+		}
+
+		if !ketemu {
+			dataStats = append(dataStats, stats{
+				bulan: database[i].tanggal.bulan,
+				reservasi: 0,
+				jam: 0,
+				total: 0,
+				hari: [14]int{},
+			})
+		}
+	}
+
+	for i := 0; i < len(dataStats); i++ {
+		for j := 0; j < len(database); j++ {
+			if dataStats[i].bulan == database[j].tanggal.bulan {
+				for k := 0; k < len(database[j].reservasi); k++{
+					dataStats[i].reservasi++
+					dataStats[i].jam += database[j].reservasi[k].durasi
+					dataStats[i].total += database[j].reservasi[k].total
+					x := ambilIndexJam(database[j].reservasi[k].jamMulai)
+					dataStats[i].hari[x] += 1
+				}
+			}
+		}
+		maxIdx := 0
+		for k := 1; k < len(dataStats[i].hari); k++ {
+			if dataStats[i].hari[k] > dataStats[i].hari[maxIdx] {
+				maxIdx = k
+			}
+		}
+		fmt.Println("------------------")
+		fmt.Println("Bulan:", dataStats[i].bulan)
+		fmt.Println("Total Reservasi:", dataStats[i].reservasi)
+		fmt.Println("Total Jam :", dataStats[i].jam)
+		fmt.Printf("Total Revenue: Rp.%d\n", dataStats[i].total)
+		fmt.Printf("Jam Teramai: %s\n", ambilJam(maxIdx))
+
+		fmt.Println("------------------")
+	}
+
+	fmt.Println(dataStats)
+	menuLain(mainReservation)
+}
 
 // Catatan Reservasi
 // Tampilkan Data Reservasi Per Lapangan (Done)

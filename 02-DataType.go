@@ -35,7 +35,7 @@ var database = []Database{
 			hargaDefault: 120000,
 			happyHour: 150000,
 		},
-		jadwal:   defaultJadwal(1200000, 150000),
+		jadwal:   defaultJadwal(120000, 150000),
 		reservasi: []Sewa{
 			{
 				penyewa:  "Fathir",
@@ -134,4 +134,12 @@ type tanggal struct {
 type harga struct {
 	hargaDefault int
 	happyHour int
+}
+
+type stats struct {
+	bulan string
+	reservasi int
+	jam int
+	total int
+	hari [14]int
 }
