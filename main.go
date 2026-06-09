@@ -3,7 +3,7 @@ import "fmt"
 
 func main() {
 	var n int
-	fmt.Println("=== Menu Sport ===")
+	fmt.Println("=== MENU SPORT ===")
 	fmt.Println("Pilih Menu:")
 	fmt.Println("1. Data Lapangan")
 	fmt.Println("2. Member Lapangan")

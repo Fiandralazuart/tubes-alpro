@@ -31,7 +31,8 @@ func mainReservation() {
 	case n == 5:
 		tampilkanReservasi()
 	case n == 6:
-		statistikPendapatan()
+		// statistikPendapatan()
+		fmt.Println("helo")
 	case n == 7:
 		main()
 	default:
@@ -43,57 +44,73 @@ func mainReservation() {
 func tampilkanJadwal() {
 	var n int
 	var pilih string
-	var metode int
+	var metode, kriteria int
 
 	fmt.Println("=== Jadwal Lapangan ===")
 	fmt.Println("Pilih Lapangan: ")
 	displayLapName()
 
-	fmt.Println("Pilih: ")
+	fmt.Print("Pilih: ")
 	fmt.Scan(&n)
 
-	for i := 0; i < len(database); i++ {
+	fmt.Println("Urutkan Data? (yes/no)")
+	fmt.Scan(&pilih)
 
+	if pilih == "yes" {
+		fmt.Println("Pilih Kriteria Sorting")
+		fmt.Println("1. Status Booking")
+		fmt.Println("2. Harga")
+		fmt.Scan(&kriteria)
+
+		if kriteria < 0 || kriteria > 2 {
+			fmt.Println("Input Tidak Valid")
+			menuLain(mainReservation)
+		}
+		
+		fmt.Println("Pilih Metode Sorting")
+		fmt.Println("1. SelectionSort")
+		fmt.Println("2. InsertionSort")
+		fmt.Scan(&metode)
+
+		if metode < 0 || metode > 2  {
+			fmt.Println("Input Tidak Valid")
+			menuLain(mainReservation)
+		}
+
+	} else if pilih != "no" {
+		fmt.Println("Perintah Tidak Valid")
+		menuLain(mainReservation)
+		return
+	}
+
+	for i := 0; i < len(database); i++ {
 		if database[i].lapangan == lapangan[n-1].nama {
+
 			jadwalTampil := append([]Jam{}, database[i].jadwal...)
 
-			fmt.Println("Urutkan Data? (yes/no)")
-			fmt.Scan(&pilih)
-
 			if pilih == "yes" {
-
-				fmt.Println("1. Selection Sort")
-				fmt.Println("2. Insertion Sort")
-				fmt.Print("Pilih metode: ")
-				fmt.Scan(&metode)
-
-				if metode == 1 {
+				if kriteria == 1 && metode == 1 {
 					selectionSort(jadwalTampil)
-				} else if metode == 2 {
+				} else if kriteria == 1 && metode == 2 {
 					insertionSort(jadwalTampil)
-				} else {
-					fmt.Println("Perintah Tidak Valid")
-					menuLain(mainReservation)
-				}
-			} else if pilih != "no" {
-				fmt.Println("Perintah Tidak Valid")
-				menuLain(mainReservation)
-			} 
-
-			fmt.Println("==== Jadwal Tersedia ====")
-			fmt.Printf("Lap. %s | %s\n", database[i].lapangan, database[i].tanggal)
-			fmt.Println("")
-
-			for j := 0; j < len(jadwalTampil); j++ {
-
-				if jadwalTampil[j].isAvailable {
-					fmt.Printf("%s | Tersedia \n", jadwalTampil[j].waktu)
-				} else {
-					fmt.Printf("%s | Terbooking \n", jadwalTampil[j].waktu)
+				} else if kriteria == 2 && metode == 1 {
+					insertionSortHarga(jadwalTampil)
+				} else if kriteria == 3 && metode == 2 {
+					insertionSortHarga(jadwalTampil)
 				}
 			}
 
-			fmt.Println("")
+			fmt.Println("==== Jadwal Tersedia ====")
+			fmt.Printf("Lap. %s | %s-%s-%s\n",
+				database[i].lapangan,
+				database[i].tanggal.tahun,
+				database[i].tanggal.bulan,
+				database[i].tanggal.hari)
+
+			fmt.Println()
+			displayJadwal(jadwalTampil)
+
+			fmt.Println()
 		}
 	}
 
@@ -102,7 +119,7 @@ func tampilkanJadwal() {
 
 func buatJadwal() {
 	var n int
-	var tanggal string
+	var hari, bulan, tahun string
 	fmt.Println("=== Buat Jadwal ===")
 	fmt.Println("Pilih Lapangan: ")
 	displayLapName()
@@ -110,22 +127,40 @@ func buatJadwal() {
 	fmt.Println("Pilih: ")
 	fmt.Scan(&n)
 
-	fmt.Print("Masukkan Tanggal: ")
-	fmt.Scan(&tanggal)
+	fmt.Println("Masukkan Tanggal: ")
+	fmt.Print("Hari: ")
+	fmt.Scan(&hari)
+	fmt.Print("Bulan: ")
+	fmt.Scan(&bulan)
+	fmt.Print("Tahun: ")
+	fmt.Scan(&tahun)
 
-	isAvailable := false
+	isAvailable := true
+
 	for i := 0; i < len(database); i++ {
-		if database[i].tanggal != tanggal && lapangan[n-1].nama == database[i].lapangan {
-			isAvailable = true
+		if database[i].tanggal.hari == hari &&
+			database[i].tanggal.bulan == bulan &&
+			database[i].tanggal.tahun == tahun &&
+			database[i].lapangan == lapangan[n-1].nama {
+
+			isAvailable = false
+			break
 		}
 	}
 
 	if isAvailable {
 		database = append(database, Database{
-			tanggal:  tanggal,
+			tanggal: tanggal{
+				hari,
+				bulan,
+				tahun,
+			},
 			lapangan: lapangan[n-1].nama,
-			harga: lapangan[n-1].harga,
-			jadwal:   defaultJadwal(),
+			harga: harga{
+				happyHour:    lapangan[n-1].harga.happyHour,
+				hargaDefault: lapangan[n-1].harga.hargaDefault,
+			},
+			jadwal: defaultJadwal(lapangan[n-1].harga.hargaDefault, lapangan[n-1].harga.happyHour),
 		})
 		fmt.Println("Sukses Membuat Jadwal")
 		menuLain(mainReservation)
@@ -138,7 +173,7 @@ func buatJadwal() {
 
 func bookingJadwal() {
 	var n, idx int
-	var tanggal, nama string
+	var nama, hari, bulan, tahun string
 	// var data Database
 	fmt.Println("=== Booking Jadwal ===")
 	jml := displayLapName()
@@ -152,23 +187,22 @@ func bookingJadwal() {
 	}
 
 	fmt.Println("Masukkan Tanggal: ")
-	fmt.Scan(&tanggal)
+	fmt.Print("Hari: ")
+	fmt.Scan(&hari)
+	fmt.Print("Bulan: ")
+	fmt.Scan(&bulan)
+	fmt.Print("Tahun: ")
+	fmt.Scan(&tahun)
 
 	isThere := false
 	for i := 0; i < len(database); i++ {
-		if database[i].lapangan == lapangan[n-1].nama && database[i].tanggal == tanggal {
+		if database[i].lapangan == lapangan[n-1].nama && database[i].tanggal.hari == hari && database[i].tanggal.bulan == bulan && database[i].tanggal.tahun == tahun {
 			// data = database[i]
 			idx = i
 			fmt.Println("==== Jadwal Tersedia ====")
-			fmt.Printf("Lap. %s | %s\n", database[i].lapangan, database[i].tanggal)
+			fmt.Printf("Lap. %s | %s-%s-%s\n", database[i].lapangan, database[i].tanggal.tahun, database[i].tanggal.bulan, database[i].tanggal.hari)
 			fmt.Println("")
-			for j := 0; j < len(database[i].jadwal); j++ {
-				if database[i].jadwal[j].isAvailable {
-					fmt.Printf("%d. %s | Tersedia \n", j+1, database[i].jadwal[j].waktu)
-				} else {
-					fmt.Printf("%d. %s | Terbooking \n", j+1, database[i].jadwal[j].waktu)
-				}
-			}
+			displayJadwal(database[i].jadwal)
 			isThere = true
 			fmt.Println("")
 		}
@@ -201,20 +235,24 @@ func bookingJadwal() {
 		fmt.Println("Jumlah Jam: ")
 		fmt.Scan(&jmlJam)
 
-		var x int
+		var x, totalHarga int
 		for i := 0; i < jmlJam; i++ {
 			fmt.Println("Pilih Jadwal: ")
 			fmt.Scan(&x)
 
 			database[idx].jadwal[x-1].isAvailable = false
+			totalHarga += database[idx].jadwal[x-1].harga
+			fmt.Println(database[idx].jadwal[x-1].harga)
 		}
+
 		database[idx].reservasi = append(database[idx].reservasi, Sewa{
 			penyewa:  nama,
-			jamMulai: ambilJam(x-n),
+			jamMulai: ambilJam(x - n),
 			jamAkhir: ambilJam(x),
-			tglMulai: tanggal,
-			tglAkhir: tanggal,
-			durasi: n,
+			tglMulai: tahun + "-" + bulan + "-" + hari,
+			tglAkhir: tahun + "-" + bulan + "-" + hari,
+			durasi:   n,
+			total: totalHarga,
 		})
 	} else {
 		fmt.Println("Member Tidak Terdaftar, Tambahkan Member")
@@ -239,7 +277,7 @@ func tampilkanReservasi() {
 
 		fmt.Print("Pilih Lapangan: ")
 		fmt.Scan(&n)
-	
+
 		for i := 0; i < len(database); i++ {
 			if database[i].lapangan == lapangan[n-1].nama {
 				loopReservasi(i)
@@ -257,61 +295,25 @@ func tampilkanReservasi() {
 	}
 
 }
-func selectionSort(jadwal []Jam) {
-	for a := 0; a < len(jadwal)-1; a++ {
 
-		max := a
 
-		for b := a + 1; b < len(jadwal); b++ {
+// func statistikPendapatan() {
+// 	fmt.Println("=== Dashboard Pendapatan ===")
+// 	arr := [14]int{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 
-			// Terbooking di atas
-			if !jadwal[b].isAvailable &&
-				jadwal[max].isAvailable {
+// 	total := 0
+// 	for i := 0; i < len(database); i++ {
+// 		for j := 0; j < len(database[i].reservasi); j++ {
+// 			total += database[i].reservasi[j].durasi * database[i].harga
+// 			x := ambilIndexJam(database[i].reservasi[j].jamMulai)
+// 			arr[x] += 1
+// 		}
+// 	}
 
-				max = b
-			}
-		}
-
-		jadwal[a], jadwal[max] =
-			jadwal[max], jadwal[a]
-	}
-}
-
-func insertionSort(jadwal []Jam) {
-	for a := 1; a < len(jadwal); a++ {
-
-		key := jadwal[a]
-		b := a - 1
-
-		for b >= 0 &&
-			jadwal[b].isAvailable &&
-			!key.isAvailable {
-
-			jadwal[b+1] = jadwal[b]
-			b--
-		}
-
-		jadwal[b+1] = key
-	}
-}
-
-func statistikPendapatan() {
-	fmt.Println("=== Dashboard Pendapatan ===")
-	arr := [14]int{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-
-	total := 0
-	for i := 0; i < len(database); i++ {
-		for j := 0; j < len(database[i].reservasi); j++ {
-			total += database[i].reservasi[j].durasi * database[i].harga
-			x := ambilIndexJam(database[i].reservasi[j].jamMulai)
-			arr[x] += 1
-		}
-	}
-
-	fmt.Println("Total Pendapatan: Rp.", total)
-	fmt.Println(arr)
-	menuLain(mainReservation)
-} 
+// 	fmt.Println("Total Pendapatan: Rp.", total)
+// 	fmt.Println(arr)
+// 	menuLain(mainReservation)
+// }
 
 // Catatan Reservasi
 // Tampilkan Data Reservasi Per Lapangan (Done)

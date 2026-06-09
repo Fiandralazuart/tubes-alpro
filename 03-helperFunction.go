@@ -1,4 +1,5 @@
 package main
+
 import "fmt"
 
 func displayLap(lapangan []Lapangan, isLoop bool, n int, message string) int {
@@ -41,34 +42,33 @@ func menuLain(fungsi func()) {
 	}
 }
 
-func defaultJadwal() []Jam {
+func defaultJadwal(hargaDefault, happyHour int) []Jam {
 	return []Jam{
-		{"08.00 - 09.00", true},
-		{"09.00 - 10.00", true},
-		{"10.00 - 11.00", true},
-		{"11.00 - 12.00", true},
-		{"12.00 - 13.00", true},
-		{"13.00 - 14.00", true},
-		{"14.00 - 15.00", true},
-		{"15.00 - 16.00", true},
-		{"16.00 - 17.00", true},
-		{"17.00 - 18.00", true},
-		{"18.00 - 19.00", true},
-		{"19.00 - 20.00", true},
-		{"20.00 - 21.00", true},
-		{"21.00 - 22.00", true},
+		{"08.00 - 09.00", true, happyHour},
+		{"09.00 - 10.00", true, happyHour},
+		{"10.00 - 11.00", true, happyHour},
+		{"11.00 - 12.00", true, hargaDefault},
+		{"12.00 - 13.00", true, hargaDefault},
+		{"13.00 - 14.00", true, hargaDefault},
+		{"14.00 - 15.00", true, hargaDefault},
+		{"15.00 - 16.00", true, hargaDefault},
+		{"16.00 - 17.00", true, happyHour},
+		{"17.00 - 18.00", true, happyHour},
+		{"18.00 - 19.00", true, happyHour},
+		{"19.00 - 20.00", true, happyHour},
+		{"20.00 - 21.00", true, hargaDefault},
+		{"21.00 - 22.00", true, hargaDefault},
 	}
 }
 
 func displayLapName() int {
 	n := 0
-	for i:=0; i < len(lapangan); i++ {
+	for i := 0; i < len(lapangan); i++ {
 		fmt.Printf("%d. Lapangan %s - %s \n", i+1, lapangan[i].nama, lapangan[i].alamat)
 		n++
 	}
 	return n
 }
-
 
 func ambilJam(index int) string {
 	switch index {
@@ -145,6 +145,86 @@ func loopReservasi(i int) {
 		fmt.Printf("Tanggal: %s - %s\n", database[i].reservasi[j].tglMulai, database[i].reservasi[j].tglAkhir)
 		fmt.Printf("Jam: %s - %s\n", database[i].reservasi[j].jamMulai, database[i].reservasi[j].jamAkhir)
 		fmt.Printf("Durasi: %d jam\n", database[i].reservasi[j].durasi)
+		fmt.Printf("Harga: Rp. %d\n", database[i].reservasi[j].total)
 		fmt.Println("")
+	}
+}
+
+func displayJadwal(data []Jam) {
+	for j := 0; j < len(data); j++ {
+		if data[j].isAvailable {
+			fmt.Printf("%d. %s | Tersedia | Rp. %d\n", j+1, data[j].waktu, data[j].harga)
+		} else {
+			fmt.Printf("%d. %s | Terbooking | Rp. %d\n", j+1, data[j].waktu, data[j].harga)
+		}
+	}
+}
+
+func selectionSort(jadwal []Jam) {
+	for a := 0; a < len(jadwal)-1; a++ {
+
+		max := a
+
+		for b := a + 1; b < len(jadwal); b++ {
+
+			// Terbooking di atas
+			if !jadwal[b].isAvailable &&
+				jadwal[max].isAvailable {
+
+				max = b
+			}
+		}
+
+		jadwal[a], jadwal[max] =
+			jadwal[max], jadwal[a]
+	}
+}
+
+func insertionSort(jadwal []Jam) {
+	for a := 1; a < len(jadwal); a++ {
+
+		key := jadwal[a]
+		b := a - 1
+
+		for b >= 0 &&
+			jadwal[b].isAvailable &&
+			!key.isAvailable {
+
+			jadwal[b+1] = jadwal[b]
+			b--
+		}
+
+		jadwal[b+1] = key
+	}
+}
+
+func selectionSortHarga(jadwal []Jam) {
+	for i := 0; i < len(jadwal)-1; i++ {
+		min := i
+
+		for j := i + 1; j < len(jadwal); j++ {
+			if jadwal[j].harga < jadwal[min].harga {
+				min = j
+			}
+		}
+
+		jadwal[i], jadwal[min] = jadwal[min], jadwal[i]
+	}
+}
+
+func insertionSortHarga(jadwal []Jam) {
+	for i := 1; i < len(jadwal); i++ {
+
+		key := jadwal[i]
+		j := i - 1
+
+		for j >= 0 &&
+			jadwal[j].harga > key.harga {
+
+			jadwal[j+1] = jadwal[j]
+			j--
+		}
+
+		jadwal[j+1] = key
 	}
 }

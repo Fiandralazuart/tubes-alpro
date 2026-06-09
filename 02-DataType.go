@@ -4,14 +4,20 @@ var lapangan = []Lapangan{
 	{
 		nama:   "Arena Futsal A",
 		alamat: "Sidoarjo",
-		harga:  120000,
+		harga:  harga{
+			hargaDefault: 120000,
+			happyHour: 150000,
+		},
 		jenis:  "Futsal",
 	},
 
 	{
 		nama:   "Soccer Center",
 		alamat: "Surabaya",
-		harga:  80000,
+		harga:  harga{
+			hargaDefault: 80000,
+			happyHour: 120000,
+		},
 		jenis:  "Rumput Sintetis",
 	},
 }
@@ -19,10 +25,17 @@ var lapangan = []Lapangan{
 
 var database = []Database{
 	{
-		tanggal:  "2026-05-23",
+		tanggal:  tanggal{
+			hari: "23",
+			bulan: "05",
+			tahun: "2026",
+		},
 		lapangan: "Soccer Center",
-		harga: 120000,
-		jadwal:   defaultJadwal(),
+		harga:  harga{
+			hargaDefault: 120000,
+			happyHour: 150000,
+		},
+		jadwal:   defaultJadwal(1200000, 150000),
 		reservasi: []Sewa{
 			{
 				penyewa:  "Fathir",
@@ -31,6 +44,7 @@ var database = []Database{
 				jamMulai: "08.00",
 				jamAkhir: "10.00",
 				durasi:   2,
+				total: 240000,
 			},
 			{
 				penyewa:  "Budi",
@@ -39,14 +53,22 @@ var database = []Database{
 				jamMulai: "15.00",
 				jamAkhir: "16.00",
 				durasi:   1,
+				total: 120000,
 			},
 		},
 	},
 	{
-		tanggal:  "2026-05-23",
+		tanggal:  tanggal{
+			hari: "23",
+			bulan: "05",
+			tahun: "2026",
+		},
 		lapangan: "Arena Futsal A",
-		harga: 80000,
-		jadwal:   defaultJadwal(),
+		harga:  harga{
+			hargaDefault: 80000,
+			happyHour: 120000,
+		},
+		jadwal:   defaultJadwal(80000, 120000),
 		reservasi: []Sewa{
 			{
 				penyewa:  "Budi",
@@ -55,6 +77,7 @@ var database = []Database{
 				jamMulai: "09.00",
 				jamAkhir: "11.00",
 				durasi:   2,
+				total: 240000,
 			},
 			{
 				penyewa:  "Andi",
@@ -63,15 +86,16 @@ var database = []Database{
 				jamMulai: "18.00",
 				jamAkhir: "20.00",
 				durasi:   2,
+				total: 240000,
 			},
 		},
 	},
 }
 
 type Database struct {
-	tanggal string
+	tanggal tanggal
 	lapangan string
-	harga int
+	harga harga
 	jadwal []Jam
 	reservasi []Sewa
 }
@@ -83,6 +107,7 @@ type Sewa struct {
 	jamMulai string 
 	jamAkhir string 
 	durasi int
+	total int
 }
 
 
@@ -90,11 +115,23 @@ type Sewa struct {
 type Jam struct {
 	waktu string
 	isAvailable bool
+	harga int
 }
 
 type Lapangan struct {
 	nama string
 	alamat string
-	harga int
+	harga harga
 	jenis string
+}
+
+type tanggal struct {
+	hari string
+	bulan string
+	tahun string
+}
+
+type harga struct {
+	hargaDefault int
+	happyHour int
 }

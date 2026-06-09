@@ -49,7 +49,7 @@ func tambahLapangan() {
 	
 	for i := 0; i < n; i++ {
 		var nama, alamat, jenis string
-		var harga int
+		var hargaStandar, happyHour int
 		
 		fmt.Println("Lapangan ke", i+1)
 		fmt.Print("Masukkan Nama: ")
@@ -58,14 +58,19 @@ func tambahLapangan() {
 		fmt.Scan(&alamat)
 		fmt.Print("Masukkan Jenis: ")
 		fmt.Scan(&jenis)
-		fmt.Print("Masukkan Harga: ")
-		fmt.Scan(&harga)
+		fmt.Print("Masukkan Harga Standar: ")
+		fmt.Scan(&hargaStandar)
+		fmt.Print("Masukkan Harga Happy Hour: ")
+		fmt.Scan(&happyHour)
 		
 		lapangan = append(lapangan, Lapangan{
 			nama: nama,
 			alamat: alamat,
 			jenis: jenis,
-			harga: harga,
+			harga: harga{
+				hargaDefault: hargaStandar,
+				happyHour: happyHour,
+			},
 		})
 	}
 	fmt.Printf("Berhasil Menambahkan %d Lapangan Baru! \n", n)
@@ -74,7 +79,7 @@ func tambahLapangan() {
 }
 
 func updateLapangan() {
-	var n, harga int
+	var n, hargaStandar, happyHour int
 	var nama, alamat, jenis string
 
 	fmt.Println("=== MENU UPDATE LAPANGAN ===")
@@ -101,13 +106,16 @@ func updateLapangan() {
 		fmt.Scan(&alamat)
 		fmt.Print("Ubah Jenis: ")
 		fmt.Scan(&jenis)
-		fmt.Print("Ubah Harga: ")
-		fmt.Scan(&harga)
+		fmt.Print("Ubah Harga Standar: ")
+		fmt.Scan(&hargaStandar)
+		fmt.Print("Ubah Harga Happy Hour: ")
+		fmt.Scan(&happyHour)
 
 		lapangan[n-1].nama = nama
 		lapangan[n-1].alamat = alamat
 		lapangan[n-1].jenis = jenis
-		lapangan[n-1].harga = harga 
+		lapangan[n-1].harga.hargaDefault = hargaStandar
+		lapangan[n-1].harga.happyHour = happyHour
 
 		displayLap(lapangan, false, n, "Berhasil Update Lapangan")
 		mainCrud()
@@ -136,12 +144,18 @@ func updateLapangan() {
 				fmt.Scan(&jenis)
 				
 				lapangan[n-1].jenis = jenis
-			case ubah == "harga":
-				harga := 0
+			case ubah == "harga standar":
+				hargaStandar := 0
 				fmt.Print("Masukkan harga: ")
-				fmt.Scan(&harga)
+				fmt.Scan(&hargaStandar)
 				
-				lapangan[n-1].harga = harga
+				lapangan[n-1].harga.hargaDefault = hargaStandar
+			case ubah == "happy hour":
+				happyHour := 0
+				fmt.Print("Masukkan harga: ")
+				fmt.Scan(&happyHour)
+				
+				lapangan[n-1].harga.hargaDefault = happyHour
 		}
 		displayLap(lapangan, false, n, "Berhasil Update Lapangan")
 		menuLain(mainCrud)
