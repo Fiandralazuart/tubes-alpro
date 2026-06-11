@@ -4,52 +4,38 @@ var lapangan = []Lapangan{
 	{
 		nama:   "Arena Futsal A",
 		alamat: "Sidoarjo",
-		harga:  120000,
+		harga:  harga{
+			hargaDefault: 120000,
+			happyHour: 150000,
+		},
 		jenis:  "Futsal",
-		// sewa: []Sewa{
-		// 	{
-		// 		penyewa: "Jamal",
-		// 		tglMulai: "2026-05-21",
-		// 		tglAkhir: "2026-05-21",
-		// 		jamMulai: "08:00",
-		// 		jamAkhir: "10:00",
-		// 		durasi:   2,
-		// 	},
-		// 	{
-		// 		penyewa: "Udin",
-		// 		tglMulai: "2026-05-22",
-		// 		tglAkhir: "2026-05-22",
-		// 		jamMulai: "13:00",
-		// 		jamAkhir: "15:00",
-		// 		durasi:   2,
-		// 	},
-		// },
 	},
 
 	{
 		nama:   "Soccer Center",
 		alamat: "Surabaya",
-		harga:  80000,
+		harga:  harga{
+			hargaDefault: 80000,
+			happyHour: 120000,
+		},
 		jenis:  "Rumput Sintetis",
-		// sewa: []Sewa{
-		// 	{
-		// 		penyewa: "Rahman",
-		// 		tglMulai: "2026-05-23",
-		// 		tglAkhir: "2026-05-23",
-		// 		jamMulai: "19:00",
-		// 		jamAkhir: "21:00",
-		// 		durasi:   2,
-		// 	},
-		// },
 	},
 }
 
 
 var database = []Database{
 	{
-		tanggal:  "2026-05-23",
+		tanggal:  tanggal{
+			hari: "23",
+			bulan: "05",
+			tahun: "2026",
+		},
 		lapangan: "Soccer Center",
-		jadwal:   defaultJadwal(),
+		harga:  harga{
+			hargaDefault: 120000,
+			happyHour: 150000,
+		},
+		jadwal:   defaultJadwal(120000, 150000),
 		reservasi: []Sewa{
 			{
 				penyewa:  "Fathir",
@@ -58,6 +44,7 @@ var database = []Database{
 				jamMulai: "08.00",
 				jamAkhir: "10.00",
 				durasi:   2,
+				total: 240000,
 			},
 			{
 				penyewa:  "Budi",
@@ -66,13 +53,22 @@ var database = []Database{
 				jamMulai: "15.00",
 				jamAkhir: "16.00",
 				durasi:   1,
+				total: 120000,
 			},
 		},
 	},
 	{
-		tanggal:  "2026-05-23",
+		tanggal:  tanggal{
+			hari: "23",
+			bulan: "05",
+			tahun: "2026",
+		},
 		lapangan: "Arena Futsal A",
-		jadwal:   defaultJadwal(),
+		harga:  harga{
+			hargaDefault: 80000,
+			happyHour: 120000,
+		},
+		jadwal:   defaultJadwal(80000, 120000),
 		reservasi: []Sewa{
 			{
 				penyewa:  "Budi",
@@ -81,6 +77,7 @@ var database = []Database{
 				jamMulai: "09.00",
 				jamAkhir: "11.00",
 				durasi:   2,
+				total: 240000,
 			},
 			{
 				penyewa:  "Andi",
@@ -89,14 +86,16 @@ var database = []Database{
 				jamMulai: "18.00",
 				jamAkhir: "20.00",
 				durasi:   2,
+				total: 240000,
 			},
 		},
 	},
 }
 
 type Database struct {
-	tanggal string
+	tanggal tanggal
 	lapangan string
+	harga harga
 	jadwal []Jam
 	reservasi []Sewa
 }
@@ -108,6 +107,7 @@ type Sewa struct {
 	jamMulai string 
 	jamAkhir string 
 	durasi int
+	total int
 }
 
 
@@ -115,12 +115,65 @@ type Sewa struct {
 type Jam struct {
 	waktu string
 	isAvailable bool
+	harga int
 }
 
 type Lapangan struct {
 	nama string
 	alamat string
-	harga int
+	harga harga
 	jenis string
-	// sewa []Sewa
+}
+
+type tanggal struct {
+	hari string
+	bulan string
+	tahun string
+}
+
+type harga struct {
+	hargaDefault int
+	happyHour int
+}
+
+type stats struct {
+	bulan string
+	reservasi int
+	jam int
+	total int
+	hari [14]int
+}
+
+// Penyewa Type
+
+type Penyewa struct {
+	ID               int
+	nama             string
+	noHP             string
+	totalBooking     int
+	totalPengeluaran int
+}
+
+var penyewa = []Penyewa{
+	{
+		ID:           1,
+		nama:         "Fathir",
+		noHP:         "08123456789",
+		totalBooking: 1,
+		totalPengeluaran: 240000,
+	},
+	{
+		ID:           2,
+		nama:         "Budi",
+		noHP:         "08234567890",
+		totalBooking: 2,
+		totalPengeluaran: 360000,
+	},
+	{
+		ID:           3,
+		nama:         "Andi",
+		noHP:         "08345678901",
+		totalBooking: 1,
+		totalPengeluaran: 240000,
+	},
 }

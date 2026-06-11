@@ -2,7 +2,8 @@ package main
 
 import "fmt"
 
-func displayLap(lapangan []Lapangan, isLoop bool, n int, message string) {
+func displayLap(lapangan []Lapangan, isLoop bool, n int, message string) int {
+	x := 0
 	if isLoop {
 		for i := 0; i < len(lapangan); i++ {
 			fmt.Printf("Lapangan-%d \n", i+1)
@@ -11,6 +12,7 @@ func displayLap(lapangan []Lapangan, isLoop bool, n int, message string) {
 			fmt.Printf("Jenis Lap: %s \n", lapangan[i].jenis)
 			fmt.Printf("Harga Sewa: %d \n", lapangan[i].harga)
 			fmt.Println(" ")
+			x++
 		}
 	} else {
 		fmt.Println(" ")
@@ -20,32 +22,36 @@ func displayLap(lapangan []Lapangan, isLoop bool, n int, message string) {
 		fmt.Printf("Jenis Lap: %s \n", lapangan[n-1].jenis)
 		fmt.Printf("Harga Sewa: %d \n", lapangan[n-1].harga)
 		fmt.Println(" ")
+		x++
 	}
+	return x
 }
 
 func defaultJadwal() []Jam {
 	return []Jam{
-		{"08.00 - 09.00", true},
-		{"09.00 - 10.00", true},
-		{"10.00 - 11.00", true},
-		{"11.00 - 12.00", true},
-		{"12.00 - 13.00", true},
-		{"13.00 - 14.00", true},
-		{"14.00 - 15.00", true},
-		{"15.00 - 16.00", true},
-		{"16.00 - 17.00", true},
-		{"17.00 - 18.00", true},
-		{"18.00 - 19.00", true},
-		{"19.00 - 20.00", true},
-		{"20.00 - 21.00", true},
-		{"21.00 - 22.00", true},
+		{"08.00 - 09.00", true, happyHour},
+		{"09.00 - 10.00", true, happyHour},
+		{"10.00 - 11.00", true, happyHour},
+		{"11.00 - 12.00", true, hargaDefault},
+		{"12.00 - 13.00", true, hargaDefault},
+		{"13.00 - 14.00", true, hargaDefault},
+		{"14.00 - 15.00", true, hargaDefault},
+		{"15.00 - 16.00", true, hargaDefault},
+		{"16.00 - 17.00", true, happyHour},
+		{"17.00 - 18.00", true, happyHour},
+		{"18.00 - 19.00", true, happyHour},
+		{"19.00 - 20.00", true, happyHour},
+		{"20.00 - 21.00", true, hargaDefault},
+		{"21.00 - 22.00", true, hargaDefault},
 	}
 }
 
 func displayLapName() {
 	for i := 0; i < len(lapangan); i++ {
 		fmt.Printf("%d. Lapangan %s - %s \n", i+1, lapangan[i].nama, lapangan[i].alamat)
+		n++
 	}
+	return n
 }
 
 func ambilJam(index int) string {
