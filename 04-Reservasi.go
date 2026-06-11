@@ -256,7 +256,8 @@ func bookingJadwal() {
 		fmt.Println("Member Tidak Terdaftar, Tambahkan Member")
 		tambahPenyewa()
 	}
-
+	totalHarga := 0
+	updateStatsPenyewa(nama, totalH	arga)
 	fmt.Println("Sukses Booking Lapangan")
 
 	menuLain(mainReservation)
