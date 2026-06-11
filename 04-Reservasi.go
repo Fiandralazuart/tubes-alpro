@@ -62,7 +62,7 @@ func tampilkanJadwal() {
 		fmt.Println("2. Harga")
 		fmt.Scan(&kriteria)
 
-		if kriteria < 0 || kriteria > 2 {
+		if kriteria < 1 || kriteria > 2 {
 			fmt.Println("Input Tidak Valid")
 			menuLain(mainReservation)
 		}
@@ -72,7 +72,7 @@ func tampilkanJadwal() {
 		fmt.Println("2. InsertionSort")
 		fmt.Scan(&metode)
 
-		if metode < 0 || metode > 2  {
+		if metode < 1 || metode > 2  {
 			fmt.Println("Input Tidak Valid")
 			menuLain(mainReservation)
 		}
@@ -95,7 +95,7 @@ func tampilkanJadwal() {
 					insertionSort(jadwalTampil)
 				} else if kriteria == 2 && metode == 1 {
 					insertionSortHarga(jadwalTampil)
-				} else if kriteria == 3 && metode == 2 {
+				} else if kriteria == 2 && metode == 2 {
 					insertionSortHarga(jadwalTampil)
 				}
 			}
