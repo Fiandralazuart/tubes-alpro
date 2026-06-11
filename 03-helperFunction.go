@@ -10,7 +10,9 @@ func displayLap(lapangan []Lapangan, isLoop bool, n int, message string) int {
 			fmt.Printf("Nama Lap: %s \n", lapangan[i].nama)
 			fmt.Printf("Alamat Lap: %s \n", lapangan[i].alamat)
 			fmt.Printf("Jenis Lap: %s \n", lapangan[i].jenis)
-			fmt.Printf("Harga Sewa: %d \n", lapangan[i].harga)
+			fmt.Println("--- Harga Sewa ---")
+			fmt.Printf("Harga Standar: Rp %d \n", lapangan[i].harga.hargaDefault)
+			fmt.Printf("Harga Happy Hour: Rp %d \n", lapangan[i].harga.happyHour)
 			fmt.Println(" ")
 			x++
 		}
@@ -20,7 +22,9 @@ func displayLap(lapangan []Lapangan, isLoop bool, n int, message string) int {
 		fmt.Printf("Nama Lap: %s \n", lapangan[n-1].nama)
 		fmt.Printf("Alamat Lap: %s \n", lapangan[n-1].alamat)
 		fmt.Printf("Jenis Lap: %s \n", lapangan[n-1].jenis)
-		fmt.Printf("Harga Sewa: %d \n", lapangan[n-1].harga)
+		fmt.Println("--- Harga Sewa ---")
+		fmt.Printf("Harga Standar: Rp %d \n", lapangan[n-1].harga.hargaDefault)
+		fmt.Printf("Harga Happy Hour: Rp %d \n", lapangan[n-1].harga.happyHour)
 		fmt.Println(" ")
 		x++
 	}

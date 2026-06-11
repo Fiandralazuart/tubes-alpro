@@ -121,6 +121,7 @@ func updateLapangan() {
 		mainCrud()
 	} else if isAll == "no" {
 		var ubah string
+		isValid := true
 		
 		fmt.Print("Masukkan field yang ingin diubah: ")
 		fmt.Scan(&ubah)
@@ -144,21 +145,27 @@ func updateLapangan() {
 				fmt.Scan(&jenis)
 				
 				lapangan[n-1].jenis = jenis
-			case ubah == "harga standar":
+			case ubah == "standar":
 				hargaStandar := 0
 				fmt.Print("Masukkan harga: ")
 				fmt.Scan(&hargaStandar)
 				
 				lapangan[n-1].harga.hargaDefault = hargaStandar
-			case ubah == "happy hour":
+			case ubah == "happy":
 				happyHour := 0
 				fmt.Print("Masukkan harga: ")
 				fmt.Scan(&happyHour)
 				
 				lapangan[n-1].harga.hargaDefault = happyHour
+			default:
+				isValid = false
+				fmt.Println("Field Tidak Valid")
+				menuLain(mainCrud)
 		}
-		displayLap(lapangan, false, n, "Berhasil Update Lapangan")
-		menuLain(mainCrud)
+		if isValid {
+			displayLap(lapangan, false, n, "Berhasil Update Lapangan")
+			menuLain(mainCrud)
+		}
 	} else {
 		fmt.Println("Perintah Tidak Valid")
 		fmt.Println(" ")
