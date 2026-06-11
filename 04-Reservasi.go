@@ -241,7 +241,6 @@ func bookingJadwal() {
 
 			database[idx].jadwal[x-1].isAvailable = false
 			totalHarga += database[idx].jadwal[x-1].harga
-			fmt.Println(database[idx].jadwal[x-1].harga)
 		}
 
 		database[idx].reservasi = append(database[idx].reservasi, Sewa{
@@ -300,14 +299,6 @@ func statistikPendapatan() {
 	fmt.Println("=== Dashboard Pendapatan ===")
 	var dataStats []stats
 
-	// for i := 0; i < len(database); i++ {
-	// 	for j := 0; j < len(database[i].reservasi); j++ {
-	// 		x := ambilIndexJam(database[i].reservasi[j].jamMulai)
-	// 		arr[x] += 1
-	// 	}
-	// }
-
-
 	for i := 0; i < len(database); i++ {
 		ketemu := false
 
@@ -357,16 +348,5 @@ func statistikPendapatan() {
 		fmt.Println("------------------")
 	}
 
-	fmt.Println(dataStats)
 	menuLain(mainReservation)
 }
-
-// Catatan Reservasi
-// Tampilkan Data Reservasi Per Lapangan (Done)
-// Tampilkan Data Reservasi Semua Lapangan (Done)
-
-// Catatan Jadwal
-// Tampilkan Data Jadwal dengan sorting (Done)
-
-// Catatan Booking
-// Booking Jam an (Done)

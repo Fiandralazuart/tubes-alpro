@@ -143,3 +143,37 @@ type stats struct {
 	total int
 	hari [14]int
 }
+
+// Penyewa Type
+
+type Penyewa struct {
+	ID               int
+	nama             string
+	noHP             string
+	totalBooking     int
+	totalPengeluaran int
+}
+
+var penyewa = []Penyewa{
+	{
+		ID:           1,
+		nama:         "Fathir",
+		noHP:         "08123456789",
+		totalBooking: 1,
+		totalPengeluaran: 240000,
+	},
+	{
+		ID:           2,
+		nama:         "Budi",
+		noHP:         "08234567890",
+		totalBooking: 2,
+		totalPengeluaran: 360000,
+	},
+	{
+		ID:           3,
+		nama:         "Andi",
+		noHP:         "08345678901",
+		totalBooking: 1,
+		totalPengeluaran: 240000,
+	},
+}

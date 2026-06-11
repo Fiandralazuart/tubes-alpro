@@ -5,32 +5,26 @@ import (
 	"strings"
 )
 
-// ==================== MENU UTAMA SEARCH ====================
+// func menuSearchPenyewa() {
+// 	var n int
 
-// menampilkan pilihan antara sequential search dan binary search
-func menuSearchPenyewa() {
-	var n int
+// 	fmt.Println("=== MENU PENCARIAN PENYEWA ===")
+// 	fmt.Println("1. Sequential Search")
+// 	fmt.Println("2. Binary Search")
+// 	fmt.Print("Pilih: ")
+// 	fmt.Scan(&n)
 
-	fmt.Println("=== MENU PENCARIAN PENYEWA ===")
-	fmt.Println("1. Sequential Search")
-	fmt.Println("2. Binary Search")
-	fmt.Print("Pilih: ")
-	fmt.Scan(&n)
+// 	switch {
+// 	case n == 1:
+// 		menuSeqPenyewa()
+// 	case n == 2:
+// 		menuBinPenyewa()
+// 	default:
+// 		fmt.Println("Perintah Tidak Valid")
+// 		menuLain(menuPenyewa)
+// 	}
+// }
 
-	switch {
-	case n == 1:
-		menuSeqPenyewa()
-	case n == 2:
-		menuBinPenyewa()
-	default:
-		fmt.Println("Perintah Tidak Valid")
-		menuLain(menuSearchPenyewa)
-	}
-}
-
-// ==================== SEQUENTIAL SEARCH ====================
-
-// menampilkan pilihan field untuk sequential search
 func menuSeqPenyewa() {
 	var n int
 
@@ -38,7 +32,8 @@ func menuSeqPenyewa() {
 	fmt.Println("Cari berdasarkan:")
 	fmt.Println("1. Nama")
 	fmt.Println("2. No HP")
-	fmt.Println("3. Status Voucher")
+	fmt.Println("3. Total Pengeluaran Terbesar")
+	fmt.Println("4. Kembali")
 	fmt.Print("Pilih: ")
 	fmt.Scan(&n)
 
@@ -48,14 +43,15 @@ func menuSeqPenyewa() {
 	case n == 2:
 		seqCariNoHP()
 	case n == 3:
-		seqCariVoucher()
+		seqCariPengeluaranTerbesar()
+	case n == 4:
+		menuPenyewa()
 	default:
 		fmt.Println("Perintah Tidak Valid")
-		menuLain(menuSeqPenyewa)
+		menuLain(menuPenyewa)
 	}
 }
 
-// mencari penyewa berdasarkan nama secara linear
 func seqCariNama() {
 	var key string
 
@@ -64,7 +60,6 @@ func seqCariNama() {
 
 	keyLower := strings.ToLower(key)
 
-	// melakukan perulangan untuk mencari penyewa yang namanya mengandung keyword
 	var hasil []Penyewa
 	for i := 0; i < len(penyewa); i++ {
 		if strings.Contains(strings.ToLower(penyewa[i].nama), keyLower) {
@@ -82,7 +77,6 @@ func seqCariNama() {
 	fmt.Printf("Ditemukan %d penyewa:\n", len(hasil))
 	displayPenyewa(hasil, true, 0, "Hasil Sequential Search")
 
-	// jika hanya 1 hasil ditemukan, tawarkan aksi langsung ke owner
 	if len(hasil) == 1 {
 		aksiSetelahDitemukan(hasil[0].ID)
 	} else {
@@ -90,14 +84,12 @@ func seqCariNama() {
 	}
 }
 
-// mencari penyewa berdasarkan nomor HP secara linear
 func seqCariNoHP() {
 	var key string
 
 	fmt.Print("Masukkan No HP: ")
 	fmt.Scan(&key)
 
-	// melakukan perulangan untuk mencari penyewa yang nomornya mengandung keyword
 	var hasil []Penyewa
 	for i := 0; i < len(penyewa); i++ {
 		if strings.Contains(penyewa[i].noHP, key) {
@@ -115,7 +107,6 @@ func seqCariNoHP() {
 	fmt.Printf("Ditemukan %d penyewa:\n", len(hasil))
 	displayPenyewa(hasil, true, 0, "Hasil Sequential Search")
 
-	// jika hanya 1 hasil ditemukan, tawarkan aksi langsung ke owner
 	if len(hasil) == 1 {
 		aksiSetelahDitemukan(hasil[0].ID)
 	} else {
@@ -123,51 +114,27 @@ func seqCariNoHP() {
 	}
 }
 
-// mencari penyewa berdasarkan status kepemilikan voucher secara linear
-func seqCariVoucher() {
-	var n int
-
-	fmt.Println("Tampilkan penyewa:")
-	fmt.Println("1. Yang punya voucher")
-	fmt.Println("2. Yang tidak punya voucher")
-	fmt.Print("Pilih: ")
-	fmt.Scan(&n)
-
-	if n != 1 && n != 2 {
-		fmt.Println("Perintah Tidak Valid")
+func seqCariPengeluaranTerbesar() {
+	if len(penyewa) == 0 {
+		fmt.Println("Data Penyewa Kosong")
 		menuLain(menuSeqPenyewa)
 		return
 	}
 
-	cariVoucher := n == 1
-
-	// melakukan perulangan untuk memfilter penyewa berdasarkan status voucher
-	var hasil []Penyewa
-	for i := 0; i < len(penyewa); i++ {
-		if penyewa[i].punyaVoucher == cariVoucher {
-			hasil = append(hasil, penyewa[i])
+	idxTerbesar := 0
+	for i := 1; i < len(penyewa); i++ {
+		if penyewa[i].totalPengeluaran > penyewa[idxTerbesar].totalPengeluaran {
+			idxTerbesar = i
 		}
 	}
 
-	statusLabel := "tidak punya voucher"
-	if cariVoucher {
-		statusLabel = "punya voucher"
-	}
-
 	fmt.Println("")
-	if len(hasil) == 0 {
-		fmt.Printf("Tidak ada penyewa yang %s.\n", statusLabel)
-	} else {
-		fmt.Printf("Ditemukan %d penyewa yang %s:\n", len(hasil), statusLabel)
-		displayPenyewa(hasil, true, 0, "Hasil Sequential Search - Voucher")
-	}
+	fmt.Printf("Penyewa dengan pengeluaran terbesar:\n")
+	displayPenyewa(penyewa, false, idxTerbesar+1, "Hasil Sequential Search - Pengeluaran Terbesar")
 
-	menuLain(menuSeqPenyewa)
+	aksiSetelahDitemukan(penyewa[idxTerbesar].ID)
 }
 
-// ==================== BINARY SEARCH ====================
-
-// menampilkan pilihan field untuk binary search
 func menuBinPenyewa() {
 	var n int
 
@@ -192,14 +159,12 @@ func menuBinPenyewa() {
 	}
 }
 
-// mencari penyewa berdasarkan nama dengan binary search
 func binCariNama() {
 	var key string
 
 	fmt.Print("Masukkan Nama (exact): ")
 	fmt.Scan(&key)
 
-	// menyalin slice agar data asli tidak berubah saat diurutkan
 	data := make([]Penyewa, len(penyewa))
 	copy(data, penyewa)
 
@@ -215,19 +180,15 @@ func binCariNama() {
 
 	fmt.Println("Penyewa ditemukan:")
 	displayPenyewa(data, false, idx+1, "Hasil Binary Search")
-
-	// setelah ditemukan, tawarkan aksi langsung ke owner
 	aksiSetelahDitemukan(data[idx].ID)
 }
 
-// mencari penyewa berdasarkan nomor HP dengan binary search
 func binCariNoHP() {
 	var key string
 
 	fmt.Print("Masukkan No HP (exact): ")
 	fmt.Scan(&key)
 
-	// menyalin slice agar data asli tidak berubah saat diurutkan
 	data := make([]Penyewa, len(penyewa))
 	copy(data, penyewa)
 
@@ -237,25 +198,21 @@ func binCariNoHP() {
 	fmt.Println("")
 	if idx == -1 {
 		fmt.Printf("Penyewa dengan No HP \"%s\" tidak ditemukan.\n", key)
-		menuLain(menuBinPenyewa)
+		menuLain(menuPenyewa)
 		return
 	}
 
 	fmt.Println("Penyewa ditemukan:")
 	displayPenyewa(data, false, idx+1, "Hasil Binary Search")
-
-	// setelah ditemukan, tawarkan aksi langsung ke owner
 	aksiSetelahDitemukan(data[idx].ID)
 }
 
-// mencari penyewa berdasarkan ID dengan binary search
 func binCariID() {
 	var targetID int
 
 	fmt.Print("Masukkan ID: ")
 	fmt.Scan(&targetID)
 
-	// menyalin slice agar data asli tidak berubah saat diurutkan
 	data := make([]Penyewa, len(penyewa))
 	copy(data, penyewa)
 
@@ -265,20 +222,15 @@ func binCariID() {
 	fmt.Println("")
 	if idx == -1 {
 		fmt.Printf("Penyewa dengan ID %d tidak ditemukan.\n", targetID)
-		menuLain(menuBinPenyewa)
+		menuLain(menuPenyewa)
 		return
 	}
 
 	fmt.Println("Penyewa ditemukan:")
 	displayPenyewa(data, false, idx+1, "Hasil Binary Search")
-
-	// setelah ditemukan, tawarkan aksi langsung ke owner
 	aksiSetelahDitemukan(data[idx].ID)
 }
 
-// ==================== AKSI SETELAH DITEMUKAN ====================
-
-// menawarkan aksi update atau hapus setelah penyewa berhasil ditemukan
 func aksiSetelahDitemukan(id int) {
 	var n int
 
@@ -289,7 +241,6 @@ func aksiSetelahDitemukan(id int) {
 	fmt.Print("Pilih: ")
 	fmt.Scan(&n)
 
-	// mencari nomor urut penyewa di slice asli berdasarkan ID
 	nomorUrut := -1
 	for i := 0; i < len(penyewa); i++ {
 		if penyewa[i].ID == id {
@@ -300,7 +251,7 @@ func aksiSetelahDitemukan(id int) {
 
 	if nomorUrut == -1 {
 		fmt.Println("Penyewa tidak ditemukan")
-		menuLain(menuSearchPenyewa)
+		// menuLain(menuSearchPenyewa)
 		return
 	}
 
@@ -309,15 +260,12 @@ func aksiSetelahDitemukan(id int) {
 		updatePenyewaByIndex(nomorUrut)
 	case n == 2:
 		hapusPenyewaByIndex(nomorUrut)
-	case n == 3:
-		menuSearchPenyewa()
 	default:
 		fmt.Println("Perintah Tidak Valid")
-		menuLain(menuSearchPenyewa)
+		menuLain(menuPenyewa)
 	}
 }
 
-// mengupdate penyewa berdasarkan nomor urut, dipanggil setelah search
 func updatePenyewaByIndex(n int) {
 	displayPenyewa(penyewa, false, n, "Update Penyewa")
 
@@ -337,7 +285,7 @@ func updatePenyewaByIndex(n int) {
 		penyewa[n-1].noHP = noHP
 
 		displayPenyewa(penyewa, false, n, "Berhasil Update Penyewa")
-		menuSearchPenyewa()
+		menuPenyewa()
 
 	} else if isAll == "no" {
 		ubah := ""
@@ -362,15 +310,14 @@ func updatePenyewaByIndex(n int) {
 		}
 
 		displayPenyewa(penyewa, false, n, "Berhasil Update Penyewa")
-		menuLain(menuSearchPenyewa)
+		menuLain(menuPenyewa)
 
 	} else {
 		fmt.Println("Perintah Tidak Valid")
-		menuLain(menuSearchPenyewa)
+		menuLain(menuPenyewa)
 	}
 }
 
-// menghapus penyewa berdasarkan nomor urut, dipanggil setelah search
 func hapusPenyewaByIndex(n int) {
 	displayPenyewa(penyewa, false, n, "Data Penyewa")
 
@@ -379,27 +326,22 @@ func hapusPenyewaByIndex(n int) {
 	fmt.Scan(&cond)
 
 	if cond == "yes" {
-		// menghapus elemen dari slice dengan cara menggabungkan elemen sebelum dan sesudahnya
 		penyewa = append(penyewa[:n-1], penyewa[n:]...)
 		fmt.Println("Berhasil Hapus Penyewa")
-		menuLain(menuSearchPenyewa)
+		menuLain(menuPenyewa)
 	} else if cond == "no" {
-		menuLain(menuSearchPenyewa)
+		menuLain(menuPenyewa)
 	} else {
 		fmt.Println("Perintah Tidak Valid")
-		menuLain(menuSearchPenyewa)
+		menuLain(menuPenyewa)
 	}
 }
 
-// ==================== HELPER SORT ====================
-
-// mengurutkan data penyewa berdasarkan nama A-Z menggunakan insertion sort
 func sortNama(data []Penyewa) {
 	for i := 1; i < len(data); i++ {
 		temp := data[i]
 		j := i - 1
 
-		// menggeser elemen ke kanan selama nama lebih besar dari temp
 		for j >= 0 && strings.ToLower(data[j].nama) > strings.ToLower(temp.nama) {
 			data[j+1] = data[j]
 			j--
@@ -408,13 +350,11 @@ func sortNama(data []Penyewa) {
 	}
 }
 
-//  mengurutkan data penyewa berdasarkan nomor HP menggunakan insertion sort
 func sortNoHP(data []Penyewa) {
 	for i := 1; i < len(data); i++ {
 		temp := data[i]
 		j := i - 1
 
-		// menggeser elemen ke kanan selama noHP lebih besar dari temp
 		for j >= 0 && data[j].noHP > temp.noHP {
 			data[j+1] = data[j]
 			j--
@@ -423,13 +363,11 @@ func sortNoHP(data []Penyewa) {
 	}
 }
 
-//  mengurutkan data penyewa berdasarkan ID menggunakan insertion sort
 func sortID(data []Penyewa) {
 	for i := 1; i < len(data); i++ {
 		temp := data[i]
 		j := i - 1
 
-		// menggeser elemen ke kanan selama ID lebih besar dari temp
 		for j >= 0 && data[j].ID > temp.ID {
 			data[j+1] = data[j]
 			j--
@@ -438,15 +376,11 @@ func sortID(data []Penyewa) {
 	}
 }
 
-// ==================== HELPER BINARY SEARCH ====================
-
-// mencari penyewa berdasarkan nama dengan binary search, data harus sudah terurut
 func binNama(data []Penyewa, key string) int {
 	awal := 0
 	akhir := len(data) - 1
 	key = strings.ToLower(key)
 
-	// melakukan binary search dengan membagi rentang pencarian setiap iterasi
 	for awal <= akhir {
 		tengah := (awal + akhir) / 2
 		namaTengah := strings.ToLower(data[tengah].nama)
@@ -462,12 +396,10 @@ func binNama(data []Penyewa, key string) int {
 	return -1
 }
 
-// mencari penyewa berdasarkan nomor HP dengan binary search, data harus sudah terurut
 func binNoHP(data []Penyewa, key string) int {
 	awal := 0
 	akhir := len(data) - 1
 
-	// melakukan binary search dengan membagi rentang pencarian setiap iterasi
 	for awal <= akhir {
 		tengah := (awal + akhir) / 2
 		noTengah := data[tengah].noHP
@@ -483,12 +415,10 @@ func binNoHP(data []Penyewa, key string) int {
 	return -1
 }
 
-// mencari penyewa berdasarkan ID dengan binary search, data harus sudah terurut
 func binID(data []Penyewa, targetID int) int {
 	awal := 0
 	akhir := len(data) - 1
 
-	// melakukan binary search dengan membagi rentang pencarian setiap iterasi
 	for awal <= akhir {
 		tengah := (awal + akhir) / 2
 

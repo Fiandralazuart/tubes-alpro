@@ -1,43 +1,6 @@
 package main
 
-import (
-	"bufio"
-	"fmt"
-	"os"
-	"strings"
-)
-
-type Penyewa struct {
-	ID           int
-	nama         string
-	noHP         string
-	totalBooking int
-	punyaVoucher bool
-}
-
-var penyewa = []Penyewa{
-	{
-		ID:           1,
-		nama:         "Fathir",
-		noHP:         "08123456789",
-		totalBooking: 3,
-		punyaVoucher: false,
-	},
-	{
-		ID:           2,
-		nama:         "Budi",
-		noHP:         "08234567890",
-		totalBooking: 7,
-		punyaVoucher: true,
-	},
-	{
-		ID:           3,
-		nama:         "Andi",
-		noHP:         "08345678901",
-		totalBooking: 2,
-		punyaVoucher: false,
-	},
-}
+import "fmt"
 
 func menuPenyewa() {
 	var n int
@@ -51,6 +14,8 @@ func menuPenyewa() {
 	fmt.Println("5. Sorting Total Booking")
 	fmt.Println("6. Sequential Search Penyewa")
 	fmt.Println("7. Binary Search Penyewa")
+	fmt.Println("8. Statistik Penyewa")
+	fmt.Println("9. Kembali")
 	fmt.Print("Pilih: ")
 	fmt.Scan(&n)
 
@@ -69,65 +34,40 @@ func menuPenyewa() {
 		menuSeqPenyewa()
 	case n == 7:
 		menuBinPenyewa()
+	case n == 8:
+		statistikPenyewa()
+	case n == 9:
+		main()
 	default:
 		fmt.Println("Perintah Tidak Valid")
 		menuLain(menuPenyewa)
 	}
 }
 
-// displayPenyewa menampilkan data penyewa, jika all=true tampilkan semua, jika false tampilkan satu berdasarkan nomor urut
 func displayPenyewa(data []Penyewa, all bool, n int, label string) {
 	if label != "" {
 		fmt.Printf("=== %s ===\n", label)
 	}
 
 	if all {
-		// menampilkan seluruh data penyewa 
 		for i, p := range data {
-			voucher := "Tidak Ada"
-			if p.punyaVoucher {
-				voucher = "Ada"
-			}
-			fmt.Printf("%d. Nama: %s | No HP: %s | Total Booking: %d | Voucher: %s\n",
-				i+1, p.nama, p.noHP, p.totalBooking, voucher)
+			fmt.Printf("%d. Nama: %s | No HP: %s | Total Booking: %d | Total Pengeluaran: Rp.%d\n",
+				i+1, p.nama, p.noHP, p.totalBooking, p.totalPengeluaran)
 		}
 	} else {
-
 		if n < 1 || n > len(data) {
 			fmt.Println("Nomor Tidak Valid")
 			return
 		}
 		p := data[n-1]
-		voucher := "Tidak Ada"
-		if p.punyaVoucher {
-			voucher = "Ada"
-		}
-		fmt.Printf("Nama: %s | No HP: %s | Total Booking: %d | Voucher: %s\n",
-			p.nama, p.noHP, p.totalBooking, voucher)
+		fmt.Printf("Nama: %s | No HP: %s | Total Booking: %d | Total Pengeluaran: Rp.%d\n",
+			p.nama, p.noHP, p.totalBooking, p.totalPengeluaran)
 	}
 
 	fmt.Println()
 }
 
-// menuLain menanyakan apakah pengguna ingin kembali ke menu yang diberikan
-// func menuLain(callback func()) {
-// 	cond := ""
 
-// 	fmt.Print("Kembali ke menu? (yes/no): ")
-// 	fmt.Scan(&cond)
-// 	fmt.Println()
-
-// 	if cond == "yes" || cond == "y" {
-// 		callback()
-// 	} else if cond == "no" || cond == "n" {
-// 		fmt.Println("Terima kasih!")
-// 	} else {
-// 		fmt.Println("Perintah Tidak Valid")
-// 		menuLain(callback)
-// 	}
-// }
-
-// tampilkanPenyewa menampilkan seluruh data penyewa
 func tampilkanPenyewa() {
 	fmt.Println("=== TAMPILKAN PENYEWA ===")
 
@@ -141,19 +81,16 @@ func tampilkanPenyewa() {
 	menuLain(menuPenyewa)
 }
 
-// tambahPenyewa menambahkan data penyewa baru ke dalam slice 
 func tambahPenyewa() {
-	reader := bufio.NewReader(os.Stdin)
+	var nama, noHP string
 
 	fmt.Println("=== MENU TAMBAH PENYEWA ===")
 
 	fmt.Print("Masukkan Nama: ")
-	nama, _ := reader.ReadString('\n')
-	nama = strings.TrimSpace(nama) // trim newline dan spasi di kiri kanan (gabriel edbert)
+	fmt.Scan(&nama)
 
 	fmt.Print("Masukkan No HP: ")
-	var noHP string
-	fmt.Scanln(&noHP)
+	fmt.Scan(&noHP)
 
 	idBaru := 1
 	if len(penyewa) > 0 {
@@ -161,11 +98,11 @@ func tambahPenyewa() {
 	}
 
 	penyewa = append(penyewa, Penyewa{
-		ID:           idBaru,
-		nama:         nama,
-		noHP:         noHP,
-		totalBooking: 0,
-		punyaVoucher: false,
+		ID:               idBaru,
+		nama:             nama,
+		noHP:             noHP,
+		totalBooking:     0,
+		totalPengeluaran: 0,
 	})
 
 	fmt.Printf("Berhasil Menambahkan Penyewa Baru: %s!\n\n", nama)
@@ -173,10 +110,8 @@ func tambahPenyewa() {
 	menuLain(menuPenyewa)
 }
 
-// updatePenyewa mengupdate data penyewa
 func updatePenyewa() {
 	var n int
-	reader := bufio.NewReader(os.Stdin)
 
 	fmt.Println("=== MENU UPDATE PENYEWA ===")
 
@@ -202,16 +137,15 @@ func updatePenyewa() {
 	isAll := ""
 	fmt.Print("Update semua data? (yes/no): ")
 	fmt.Scan(&isAll)
-	reader.ReadString('\n') // membersihkan sisa newline di buffer sebelum ReadString berikutnya 
 
 	if isAll == "yes" || isAll == "y" {
+		var namaBaru, noHPBaru string
+
 		fmt.Print("Ubah Nama: ")
-		namaBaru, _ := reader.ReadString('\n')
-		namaBaru = strings.TrimSpace(namaBaru)
+		fmt.Scan(&namaBaru)
 
 		fmt.Print("Ubah No HP: ")
-		var noHPBaru string
-		fmt.Scanln(&noHPBaru)
+		fmt.Scan(&noHPBaru)
 
 		penyewa[n-1].nama = namaBaru
 		penyewa[n-1].noHP = noHPBaru
@@ -222,20 +156,19 @@ func updatePenyewa() {
 		ubah := ""
 		fmt.Print("Masukkan field yang ingin diubah (nama/noHP): ")
 		fmt.Scan(&ubah)
-		reader.ReadString('\n') // membersihkan sisa newline di buffer 
 
 		switch {
 		case ubah == "nama":
+			var namaBaru string
 			fmt.Print("Masukkan Nama Baru: ")
-			namaBaru, _ := reader.ReadString('\n')
-			namaBaru = strings.TrimSpace(namaBaru)
+			fmt.Scan(&namaBaru)
 			penyewa[n-1].nama = namaBaru
 			fmt.Println("Berhasil Update Nama")
 
 		case ubah == "noHP":
-			fmt.Print("Masukkan No HP Baru: ")
 			var noHPBaru string
-			fmt.Scanln(&noHPBaru)
+			fmt.Print("Masukkan No HP Baru: ")
+			fmt.Scan(&noHPBaru)
 			penyewa[n-1].noHP = noHPBaru
 			fmt.Println("Berhasil Update No HP")
 
@@ -254,7 +187,6 @@ func updatePenyewa() {
 	menuLain(menuPenyewa)
 }
 
-// hapusPenyewa menghapus data penyewa berdasarkan nomor urut 
 func hapusPenyewa() {
 	var n int
 
@@ -272,7 +204,6 @@ func hapusPenyewa() {
 	fmt.Print("Pilih penyewa untuk dihapus: ")
 	fmt.Scan(&n)
 
-	// validasi nomor urut yang dipilih 
 	if n < 1 || n > len(penyewa) {
 		fmt.Println("Nomor Tidak Valid")
 		menuLain(menuPenyewa)
@@ -286,7 +217,6 @@ func hapusPenyewa() {
 	fmt.Scan(&cond)
 
 	if cond == "yes" || cond == "y" {
-		// menghapus elemen dari slice dengan cara menggabungkan elemen sebelum dan sesudahnya 
 		penyewa = append(penyewa[:n-1], penyewa[n:]...)
 		fmt.Println("Berhasil Hapus Penyewa")
 	} else if cond == "no" || cond == "n" {
@@ -298,14 +228,11 @@ func hapusPenyewa() {
 	menuLain(menuPenyewa)
 }
 
-// insertionSortBooking mengurutkan slice penyewa berdasarkan totalBooking dari besar ke kecil 
 func insertionSortBooking() {
-	// melakukan insertion sort dari index 1 hingga akhir slice 
 	for i := 1; i < len(penyewa); i++ {
 		temp := penyewa[i]
 		j := i - 1
 
-		// menggeser elemen ke kanan selama totalBooking lebih kecil dari temp 
 		for j >= 0 && penyewa[j].totalBooking < temp.totalBooking {
 			penyewa[j+1] = penyewa[j]
 			j--
@@ -315,6 +242,59 @@ func insertionSortBooking() {
 
 	fmt.Println("Berhasil Sorting Berdasarkan Total Booking")
 	fmt.Println()
+	displayPenyewa(penyewa, true, 0, "")
+	menuLain(menuPenyewa)
+}
+
+func updateStatsPenyewa(nama string, total int) {
+	for i := 0; i < len(penyewa); i++ {
+		if penyewa[i].nama == nama {
+			penyewa[i].totalBooking++
+			penyewa[i].totalPengeluaran += total
+			break
+		}
+	}
+}
+
+func statistikPenyewa() {
+	fmt.Println("=== STATISTIK PENYEWA ===")
+
+	if len(penyewa) == 0 {
+		fmt.Println("Data Penyewa Kosong")
+		menuLain(menuPenyewa)
+		return
+	}
+
+	idxTertinggi := 0
+	for i := 1; i < len(penyewa); i++ {
+		if penyewa[i].totalPengeluaran > penyewa[idxTertinggi].totalPengeluaran {
+			idxTertinggi = i
+		}
+	}
+
+	idxTerbanyak := 0
+	for i := 1; i < len(penyewa); i++ {
+		if penyewa[i].totalBooking > penyewa[idxTerbanyak].totalBooking {
+			idxTerbanyak = i
+		}
+	}
+
+	totalKeseluruhan := 0
+	for i := 0; i < len(penyewa); i++ {
+		totalKeseluruhan += penyewa[i].totalPengeluaran
+	}
+
+	fmt.Println("------------------")
+	fmt.Printf("Total Penyewa Terdaftar : %d\n", len(penyewa))
+	fmt.Printf("Total Pengeluaran Semua : Rp.%d\n", totalKeseluruhan)
+	fmt.Println("------------------")
+	fmt.Printf("Penyewa Teraktif        : %s (%dx booking)\n",
+		penyewa[idxTerbanyak].nama, penyewa[idxTerbanyak].totalBooking)
+	fmt.Printf("Penyewa Terbesar        : %s (Rp.%d)\n",
+		penyewa[idxTertinggi].nama, penyewa[idxTertinggi].totalPengeluaran)
+	fmt.Println("------------------")
+	fmt.Println()
+
 	displayPenyewa(penyewa, true, 0, "")
 	menuLain(menuPenyewa)
 }
