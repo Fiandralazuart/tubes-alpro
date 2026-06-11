@@ -257,7 +257,7 @@ func bookingJadwal() {
 		tambahPenyewa()
 	}
 	totalHarga := 0
-	updateStatsPenyewa(nama, totalH	arga)
+	updateStatsPenyewa(nama, totalHarga)
 	fmt.Println("Sukses Booking Lapangan")
 
 	menuLain(mainReservation)
