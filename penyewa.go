@@ -229,10 +229,12 @@ func hapusPenyewa() {
 }
 
 func insertionSortBooking() {
+	// melakukan insertion sort dari index 1 hingga akhir slice 
 	for i := 1; i < len(penyewa); i++ {
 		temp := penyewa[i]
 		j := i - 1
 
+		// menggeser elemen ke kanan selama totalBooking lebih kecil dari temp 
 		for j >= 0 && penyewa[j].totalBooking < temp.totalBooking {
 			penyewa[j+1] = penyewa[j]
 			j--
