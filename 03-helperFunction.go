@@ -69,6 +69,7 @@ func displayLapName() int {
 	}
 	return n
 }
+// halo
 
 func ambilJam(index int) string {
 	switch index {
