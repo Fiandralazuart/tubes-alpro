@@ -260,7 +260,7 @@ func aksiSetelahDitemukan(id int) {
 		updatePenyewaByIndex(nomorUrut)
 	case n == 2:
 		hapusPenyewaByIndex(nomorUrut)
-	case n == 2:
+	case n == 3:
 		menuPenyewa()
 	default:
 		fmt.Println("Perintah Tidak Valid")

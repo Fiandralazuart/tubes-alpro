@@ -78,7 +78,7 @@ func tampilkanPenyewa() {
 	}
 
 	displayPenyewa(penyewa, true, 0, "")
-	menuLain(menuPenyewa)
+	menuLain(menuPenyewa)	
 }
 
 func tambahPenyewa() {
