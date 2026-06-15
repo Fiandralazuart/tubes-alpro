@@ -5,26 +5,6 @@ import (
 	"strings"
 )
 
-// func menuSearchPenyewa() {
-// 	var n int
-
-// 	fmt.Println("=== MENU PENCARIAN PENYEWA ===")
-// 	fmt.Println("1. Sequential Search")
-// 	fmt.Println("2. Binary Search")
-// 	fmt.Print("Pilih: ")
-// 	fmt.Scan(&n)
-
-// 	switch {
-// 	case n == 1:
-// 		menuSeqPenyewa()
-// 	case n == 2:
-// 		menuBinPenyewa()
-// 	default:
-// 		fmt.Println("Perintah Tidak Valid")
-// 		menuLain(menuPenyewa)
-// 	}
-// }
-
 func menuSeqPenyewa() {
 	var n int
 
@@ -51,7 +31,7 @@ func menuSeqPenyewa() {
 		menuLain(menuPenyewa)
 	}
 }
-
+ 
 func seqCariNama() {
 	var key string
 
@@ -143,6 +123,7 @@ func menuBinPenyewa() {
 	fmt.Println("1. Nama")
 	fmt.Println("2. No HP")
 	fmt.Println("3. ID")
+	fmt.Println("4. Kembali")
 	fmt.Print("Pilih: ")
 	fmt.Scan(&n)
 
@@ -153,13 +134,15 @@ func menuBinPenyewa() {
 		binCariNoHP()
 	case n == 3:
 		binCariID()
+	case n == 4:
+		menuPenyewa()
 	default:
 		fmt.Println("Perintah Tidak Valid")
-		menuLain(menuBinPenyewa)
+		menuLain(menuPenyewa)
 	}
 }
 
-func binCariNama() {
+	func binCariNama() {
 	var key string
 
 	fmt.Print("Masukkan Nama (exact): ")
@@ -198,7 +181,7 @@ func binCariNoHP() {
 	fmt.Println("")
 	if idx == -1 {
 		fmt.Printf("Penyewa dengan No HP \"%s\" tidak ditemukan.\n", key)
-		menuLain(menuPenyewa)
+		menuLain(menuBinPenyewa)
 		return
 	}
 
@@ -222,7 +205,7 @@ func binCariID() {
 	fmt.Println("")
 	if idx == -1 {
 		fmt.Printf("Penyewa dengan ID %d tidak ditemukan.\n", targetID)
-		menuLain(menuPenyewa)
+		menuLain(menuBinPenyewa)
 		return
 	}
 
@@ -251,7 +234,7 @@ func aksiSetelahDitemukan(id int) {
 
 	if nomorUrut == -1 {
 		fmt.Println("Penyewa tidak ditemukan")
-		// menuLain(menuSearchPenyewa)
+		menuLain(menuPenyewa)
 		return
 	}
 
