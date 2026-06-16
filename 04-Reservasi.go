@@ -101,7 +101,7 @@ func tampilkanJadwal() {
 			}
 
 			fmt.Println("==== Jadwal Tersedia ====")
-			fmt.Printf("Lap. %s | %d-%d-%d\n",
+			fmt.Printf("Lap. %s | %d-%d-%d YYYY-M-D\n",
 				database[i].lapangan,
 				database[i].tanggal.tahun,
 				database[i].tanggal.bulan,
@@ -128,8 +128,8 @@ func buatJadwal() {
 	fmt.Scan(&n)
 
 	x := 1
-	fmt.Println("Masukkan Tanggal: (numerik | xx-xx-xxxx)")
-	fmt.Print("Hari: ")
+	fmt.Println("Masukkan Tanggal: (numerik | D-M-YYYY)")
+	fmt.Print("tanggal: ")
 	for x != 0 {
 		fmt.Scan(&hari)
 		x = validateDate(hari, 30)
@@ -207,8 +207,8 @@ func bookingJadwal() {
 	}
 
 	x := 1
-	fmt.Println("Masukkan Tanggal: (numerik | xx-xx-xxxx)")
-	fmt.Print("Hari: ")
+	fmt.Println("Masukkan Tanggal: (numerik | D-M-YYYY)")
+	fmt.Print("tanggal: ")
 	for x != 0 {
 		fmt.Scan(&hari)
 		x = validateDate(hari, 30)
@@ -232,6 +232,7 @@ func bookingJadwal() {
 			fmt.Println("Input tidak valid")
 			return
 		}
+		break
 	}
 
 
@@ -241,7 +242,7 @@ func bookingJadwal() {
 			// data = database[i]
 			idx = i
 			fmt.Println("==== Jadwal Tersedia ====")
-			fmt.Printf("Lap. %s | %d-%d-%d\n", database[i].lapangan, database[i].tanggal.tahun, database[i].tanggal.bulan, database[i].tanggal.hari)
+			fmt.Printf("Lap. %s | %d-%d-%d YYYY-M-D\n", database[i].lapangan, database[i].tanggal.tahun, database[i].tanggal.bulan, database[i].tanggal.hari)
 			fmt.Println("")
 			displayJadwal(database[i].jadwal)
 			isThere = true
