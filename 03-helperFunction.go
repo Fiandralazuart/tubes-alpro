@@ -234,3 +234,15 @@ func insertionSortHarga(jadwal []Jam) {
 		jadwal[j+1] = key
 	}
 }
+
+func validateDate(x int, b int) int {
+	if x == 0 {
+		return 0
+	}
+
+	if x < 1 || x > b {
+		fmt.Println("Data Tidak Valid")
+	}
+
+	return 1
+}

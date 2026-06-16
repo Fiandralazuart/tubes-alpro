@@ -26,9 +26,9 @@ var lapangan = []Lapangan{
 var database = []Database{
 	{
 		tanggal:  tanggal{
-			hari: "23",
-			bulan: "05",
-			tahun: "2026",
+			hari: 23,
+			bulan: 05,
+			tahun: 2026,
 		},
 		lapangan: "Soccer Center",
 		harga:  harga{
@@ -59,9 +59,9 @@ var database = []Database{
 	},
 	{
 		tanggal:  tanggal{
-			hari: "23",
-			bulan: "05",
-			tahun: "2026",
+			hari: 23,
+			bulan: 05,
+			tahun: 2026,
 		},
 		lapangan: "Arena Futsal A",
 		harga:  harga{
@@ -126,9 +126,9 @@ type Lapangan struct {
 }
 
 type tanggal struct {
-	hari string
-	bulan string
-	tahun string
+	hari int
+	bulan int
+	tahun int
 }
 
 type harga struct {
@@ -137,7 +137,7 @@ type harga struct {
 }
 
 type stats struct {
-	bulan string
+	bulan int
 	reservasi int
 	jam int
 	total int

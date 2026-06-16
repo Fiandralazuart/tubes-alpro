@@ -156,7 +156,7 @@ func updateLapangan() {
 				fmt.Print("Masukkan harga: ")
 				fmt.Scan(&happyHour)
 				
-				lapangan[n-1].harga.hargaDefault = happyHour
+				lapangan[n-1].harga.happyHour = happyHour
 			default:
 				isValid = false
 				fmt.Println("Field Tidak Valid")
