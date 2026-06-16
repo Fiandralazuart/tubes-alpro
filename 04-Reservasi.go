@@ -94,7 +94,7 @@ func tampilkanJadwal() {
 				} else if kriteria == 1 && metode == 2 {
 					insertionSort(jadwalTampil)
 				} else if kriteria == 2 && metode == 1 {
-					insertionSortHarga(jadwalTampil)
+					selectionSortHarga(jadwalTampil)
 				} else if kriteria == 2 && metode == 2 {
 					insertionSortHarga(jadwalTampil)
 				}
@@ -389,9 +389,9 @@ func statistikPendapatan() {
 		fmt.Println("Total Jam :", dataStats[i].jam)
 		fmt.Printf("Total Revenue: Rp.%d\n", dataStats[i].total)
 		fmt.Printf("Jam Teramai: %s\n", ambilJam(maxIdx))
-
 		fmt.Println("------------------")
 	}
 
 	menuLain(mainReservation)
 }
+

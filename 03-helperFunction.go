@@ -168,19 +168,13 @@ func displayJadwal(data []Jam) {
 
 func selectionSort(jadwal []Jam) {
 	for a := 0; a < len(jadwal)-1; a++ {
-
 		max := a
-
 		for b := a + 1; b < len(jadwal); b++ {
-
-			// Terbooking di atas
 			if !jadwal[b].isAvailable &&
 				jadwal[max].isAvailable {
-
 				max = b
 			}
 		}
-
 		jadwal[a], jadwal[max] =
 			jadwal[max], jadwal[a]
 	}
@@ -188,18 +182,14 @@ func selectionSort(jadwal []Jam) {
 
 func insertionSort(jadwal []Jam) {
 	for a := 1; a < len(jadwal); a++ {
-
 		key := jadwal[a]
 		b := a - 1
-
 		for b >= 0 &&
 			jadwal[b].isAvailable &&
 			!key.isAvailable {
-
 			jadwal[b+1] = jadwal[b]
 			b--
 		}
-
 		jadwal[b+1] = key
 	}
 }
@@ -207,13 +197,11 @@ func insertionSort(jadwal []Jam) {
 func selectionSortHarga(jadwal []Jam) {
 	for i := 0; i < len(jadwal)-1; i++ {
 		min := i
-
 		for j := i + 1; j < len(jadwal); j++ {
 			if jadwal[j].harga < jadwal[min].harga {
 				min = j
 			}
 		}
-
 		jadwal[i], jadwal[min] = jadwal[min], jadwal[i]
 	}
 }
@@ -223,14 +211,11 @@ func insertionSortHarga(jadwal []Jam) {
 
 		key := jadwal[i]
 		j := i - 1
-
 		for j >= 0 &&
 			jadwal[j].harga > key.harga {
-
 			jadwal[j+1] = jadwal[j]
 			j--
 		}
-
 		jadwal[j+1] = key
 	}
 }

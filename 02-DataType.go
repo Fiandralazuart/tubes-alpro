@@ -2,7 +2,7 @@ package main
 
 var lapangan = []Lapangan{
 	{
-		nama:   "Arena Futsal A",
+		nama:   "Arena_Futsal_A",
 		alamat: "Sidoarjo",
 		harga:  harga{
 			hargaDefault: 120000,
@@ -12,13 +12,13 @@ var lapangan = []Lapangan{
 	},
 
 	{
-		nama:   "Soccer Center",
+		nama:   "Soccer_Center",
 		alamat: "Surabaya",
 		harga:  harga{
 			hargaDefault: 80000,
 			happyHour: 120000,
 		},
-		jenis:  "Rumput Sintetis",
+		jenis:  "Rumput_Sintetis",
 	},
 }
 
@@ -30,7 +30,7 @@ var database = []Database{
 			bulan: 05,
 			tahun: 2026,
 		},
-		lapangan: "Soccer Center",
+		lapangan: "Soccer_Center",
 		harga:  harga{
 			hargaDefault: 120000,
 			happyHour: 150000,

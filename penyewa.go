@@ -11,11 +11,9 @@ func menuPenyewa() {
 	fmt.Println("2. Tambah Penyewa")
 	fmt.Println("3. Update Penyewa")
 	fmt.Println("4. Hapus Penyewa")
-	fmt.Println("5. Sorting Total Booking")
-	fmt.Println("6. Sequential Search Penyewa")
-	fmt.Println("7. Binary Search Penyewa")
-	fmt.Println("8. Statistik Penyewa")
-	fmt.Println("9. Kembali")
+	fmt.Println("5. Sequential Search Penyewa")
+	fmt.Println("6. Binary Search Penyewa")
+	fmt.Println("7. Kembali")
 	fmt.Print("Pilih: ")
 	fmt.Scan(&n)
 
@@ -29,14 +27,10 @@ func menuPenyewa() {
 	case n == 4:
 		hapusPenyewa()
 	case n == 5:
-		insertionSortBooking()
-	case n == 6:
 		menuSeqPenyewa()
-	case n == 7:
+	case n == 6:
 		menuBinPenyewa()
-	case n == 8:
-		statistikPenyewa()
-	case n == 9:
+	case n == 7:
 		main()
 	default:
 		fmt.Println("Perintah Tidak Valid")
@@ -127,7 +121,7 @@ func updatePenyewa() {
 	fmt.Scan(&n)
 
 	if n < 1 || n > len(penyewa) {
-		fmt.Println("Nomor Tidak Valid")
+		fmt.Println("ID Tidak Valid")
 		menuLain(menuPenyewa)
 		return
 	}

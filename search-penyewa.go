@@ -103,7 +103,7 @@ func seqCariPengeluaranTerbesar() {
 
 	idxTerbesar := 0
 	for i := 1; i < len(penyewa); i++ {
-		if penyewa[i].totalPengeluaran > penyewa[idxTerbesar].totalPengeluaran {
+		if penyewa[i].totalPengeluaran < penyewa[idxTerbesar].totalPengeluaran {
 			idxTerbesar = i
 		}
 	}
@@ -151,7 +151,6 @@ func menuBinPenyewa() {
 	data := make([]Penyewa, len(penyewa))
 	copy(data, penyewa)
 
-	sortNama(data)
 	idx := binNama(data, key)
 
 	fmt.Println("")
@@ -175,7 +174,6 @@ func binCariNoHP() {
 	data := make([]Penyewa, len(penyewa))
 	copy(data, penyewa)
 
-	sortNoHP(data)
 	idx := binNoHP(data, key)
 
 	fmt.Println("")
@@ -199,7 +197,6 @@ func binCariID() {
 	data := make([]Penyewa, len(penyewa))
 	copy(data, penyewa)
 
-	sortID(data)
 	idx := binID(data, targetID)
 
 	fmt.Println("")
@@ -322,44 +319,6 @@ func hapusPenyewaByIndex(n int) {
 	}
 }
 
-func sortNama(data []Penyewa) {
-	for i := 1; i < len(data); i++ {
-		temp := data[i]
-		j := i - 1
-
-		for j >= 0 && strings.ToLower(data[j].nama) > strings.ToLower(temp.nama) {
-			data[j+1] = data[j]
-			j--
-		}
-		data[j+1] = temp
-	}
-}
-
-func sortNoHP(data []Penyewa) {
-	for i := 1; i < len(data); i++ {
-		temp := data[i]
-		j := i - 1
-
-		for j >= 0 && data[j].noHP > temp.noHP {
-			data[j+1] = data[j]
-			j--
-		}
-		data[j+1] = temp
-	}
-}
-
-func sortID(data []Penyewa) {
-	for i := 1; i < len(data); i++ {
-		temp := data[i]
-		j := i - 1
-
-		for j >= 0 && data[j].ID > temp.ID {
-			data[j+1] = data[j]
-			j--
-		}
-		data[j+1] = temp
-	}
-}
 
 func binNama(data []Penyewa, key string) int {
 	awal := 0
@@ -417,3 +376,5 @@ func binID(data []Penyewa, targetID int) int {
 	}
 	return -1
 }
+
+ 
